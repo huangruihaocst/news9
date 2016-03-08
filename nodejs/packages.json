@@ -1,0 +1,23 @@
+{
+  "name": "TsinghuaNews",
+  "version": "0.0.1",
+  "author": "thu",
+  "keywords":["node.js","javascript"],
+  "repository": {
+    "type": "git",
+    "url": "https://git.net9.org/hrh14/TsinghuaBulletinBoard"
+  },
+  "license":"MIT",
+  "engines": {"node": "latest"},
+  "bugs":{"url":"https://git.net9.org/hrh14/TsinghuaBulletinBoard","email":"ice_b0und@hotmail.com"},
+  "contributors":[{"name":"Alex Wang","email":"ice_b0und@hotmail.com"}],
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "express": "latest",
+    "mongodb": "latest"
+  },
+  "devDependencies": {
+  }
+}
