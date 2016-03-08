@@ -1,6 +1,6 @@
 [
-    {"title": "News1", "source": "Sougou"},
-    {"title": "News2", "source": "Youtube"},
-    {"title": "News3", "source": "Sina"},
-    {"title": "News4", "source": "Weibo"}
+    {"title": "News1", "source": "Sogou", "date": "2015年10月", "description":"xxx", "url": "http://www.baidu.com" },
+    {"title": "News2", "source": "Sina", "date": "March 10, 2011", "description":"xxx", "url": "http://www.xunlei.com" },
+    {"title": "Wtf", "source": "微博", "date": "201510", "description":"xxx", "url": "http://net9.org" },
+    {"title": "Okgogogo", "source": "中文", "date": "2016/10", "description":"xxx", "url": "http://www.163.com" }
 ]

@@ -3,8 +3,7 @@ var app = express();
 var url = require("url");
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
-var ObjectId = require('mongodb').ObjectID;
-var mongoUrl = 'mongodb://localhost:27017/test';
+var mongoUrl = 'mongodb://localhost:27017/newsdb';
 
 var findNews = function(db, query, callback) {
     var cursor = db.collection('news').find();
@@ -34,5 +33,5 @@ app.get('/news.json', function (req, res) {
 });
 
 app.listen(3000, function () {
-    console.log('thupull app listening on port 3000!');
+    console.log('server listening on port 3000!');
 });

@@ -8,7 +8,7 @@ $(document).ready(function(){
         for (var i = 0; i < result.length; ++i) {
             var item = result[i];
             // 这里可以修改从而美化界面
-            content_list.append("<li>(From: " + item.source + ") " + item.title + "</li>");
+            content_list.append("<li><a href=\"" + item.url + "\">(From: " + item.source + ") " + item.title + "</a></li>");
         }
     });
 });
