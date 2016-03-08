@@ -6,9 +6,10 @@
 function queryFrom(source, queryString, callback) {
     var result = [];
     // 这里写从真正的数据源获取数据, 并且统一成如下的数据格式
-    // { "source": "sogou", "title": "xxx", "date": "20150101", "description": "xxx" }
+    // { "source": "sogou", "title": "xxx", "date": "20150101", "description": "xxx", "url": "http://www.baidu.com" }
     switch (source) {
         case 'baidu':
+            /* TODO 从某个API获取数据, 转换成以上格式并且调用callback(data) */
             break;
         case 'xxapi':
             break;
