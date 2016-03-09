@@ -13,7 +13,7 @@ $(document).ready(function(){
     for(var source in sources) {
         $.ajax({
             type: "GET",
-            url: "http://localhost:3000/news",
+            url: "/api/news",
             crossDomain : true,
             xhrFields: {
                 withCredentials: true
@@ -22,7 +22,7 @@ $(document).ready(function(){
                 xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
                 xhr.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             },
-            callback: function (result) {
+            success: function (result) {
                 var content_list = $("#content_list");
                 for (var i = 0; i < result.length; ++i) {
                     var item = result[i];

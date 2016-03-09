@@ -11,10 +11,6 @@ var request = require("request");
 var keyword = '清华';
 var api_key = '606ef48abce1cb59a5694142d87a64df';
 
-var insertDocument = function(db, object, callback) {
-
-};
-
 function saveToDatabase(objects) {
     MongoClient.connect(url, function(err, db) {
         db.collection('news').insertMany(objects, function (err, result) {

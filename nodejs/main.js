@@ -19,7 +19,7 @@ var findNews = function(db, query, callback) {
     });
 };
 
-app.get('/news', function (req, res) {
+app.get('/api/news', function (req, res) {
     res.writeHead(200, {
         'Content-Type': 'x-application/json'
     });
