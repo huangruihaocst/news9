@@ -4,7 +4,6 @@
 
 /* 这些函数是应该写在服务端的 */
 function queryFrom(source, queryString, callback) {
-    var result = [];
     // 这里写从真正的数据源获取数据, 并且统一成如下的数据格式
     // { "source": "sogou", "title": "xxx", "date": "20150101", "description": "xxx", "url": "http://www.baidu.com" }
     switch (source) {
