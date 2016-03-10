@@ -41,14 +41,13 @@ $(document).ready(function(){
                 var item = result[i];
                 // TODO 这里可以修改从而美化界面, 可用的字段在server.js可以找到
                 var url = item.url;
-                var source = item.source;
                 var title = item.title;
                 var image = item.image;
                 var media = sourceAnalyzer(url);
 
                 var img = "<img src=\"" + image + "\"/>";
                 var html = "<li><div><a href=\"" +
-                    url + "\">" + "(来自: " + source + ") " + title + "</a></div></li>";
+                    url + "\">" + "(来自: " + media + ") " + title + "</a></div></li>";
                 content_list.append(html);
             }
         }

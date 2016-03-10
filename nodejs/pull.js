@@ -95,9 +95,7 @@ function startPulling(callback) {
     var sources = [/*'松鼠先生',*/ 'show'];
     for (var i = 0; i < sources.length; ++i) {
         queryFrom(sources[i], queryString, function (result) {
-            saveToDatabase(result, function() {
-                callback();
-            });
+            saveToDatabase(result, callback);
         });
     }
 }
