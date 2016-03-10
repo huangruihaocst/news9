@@ -61,18 +61,20 @@ $(document).ready(function(){
                 var title = item.title;
                 var image = item.image;
                 var date = item.date;
-                var description = item.description;
+                var content = item.description;
                 console.log(image);
                 var media = sourceAnalyzer(url);
                 var source = item.source;
                 if(source == '松鼠先生' || source == 'show'){
                     source = media;
                 }
+                var description = source + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + date;
 
                 var img = "<img src=\"" + image + "\"/>";
-                var html = "<div style='margin-top: 100px;margin-bottom: 100px'><a href=\"" +
-                    url + "\">" + title + "</a><p class='text-info'>" + source + "   " + date + "</p><p class='text-muted'>" +
-                    description + "</p><img src=\""+ image + "\" onerror=\"this.onerror=null;this.src='alt.jpg'\"/></li></div>";
+                var html = "<div style='margin-top: 100px;margin-bottom: 100px;width: 80%'><a href=\"" +
+                    url + "\">" + title + "</a><p class='text-info'>" + description + "</p><p class='text-muted'>" +
+                    content + "</p></li></div>" + "<img src=\""+ image + "\" onerror=\"this.onerror=null;" +
+                    "this.src='alt.jpg'\"/>";
                 content_list.append(html);
             }
         }
