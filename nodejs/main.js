@@ -7,17 +7,25 @@ var mongoUrl = 'mongodb://localhost:27017/newsdb';
 //var Puller = require('./pull.js');
 
 var findNews = function(db, params, callback) {
+    var query = {};
     if (params['keywords']) {
-        var keywords = JSON.parse(unescape(params['keywords']));
-        console.log(keywords);
+        try {
+            var keywords = JSON.parse(unescape(params['keywords']));
+            var str = keywords.map(function (x) {
+                return "(" + x.replace(/\.|\*|\$|\(|\)/, "") + ")"
+            }).join("|");
+            query['title'] = new RegExp(str);
+        }
+        catch (exception) {
+            console.log(exception);
+        }
     }
 
-    var cursor = db.collection('news').find();
+    var cursor = db.collection('news').find(query);
     var rows = [];
     cursor.each(function(err, item) {
         assert.equal(err, null);
         if (item != null) {
-            //console.log(item);
             rows.push(item);
         } else {
             callback(rows);
