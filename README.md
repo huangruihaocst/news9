@@ -32,7 +32,7 @@
     
 5. 浏览器打开http://localhost
 
-#  TODO(assigned to huangruihaocst@126.com)
+*  TODO(assigned to huangruihaocst@126.com)
     - 后端(优先级从高到低)
         - 从api获取数据这些代码需要非常鲁棒, 现在的情况是偶尔会崩溃(null pointer?)导致整个服务器退出
         - 从api获取数据只能获取20条, 应该加两个字段, offset, count
@@ -45,13 +45,13 @@
             - DATE_MARGIN: 整数, 天数
             - 每个字段都是可选项_
     
-# TODO(assigned to Alex Wang)
+* TODO(assigned to Alex Wang)
     - 使用supervisor维持服务持续运转
     - pull获取更多数据(现在是20条)
     - 添加根据日期查询的接口(现在能用,但是不会根据日期查询)
     - 尝试将图片也缓存下来
     - 解析时间
-# TODO ()
+* TODO ()
     - 照片按照比例缩放
     - 聚合新闻，⑨个，等XX网站均转载此
     - line-height
