@@ -95,7 +95,7 @@ function queryFrom(source, queryString, callback) {
                 var content = [];
                 for(var i = 0;i < raw.length; ++i){
                     var object = {
-                        'source': '聚合',
+                        'source': raw[i]['src'],
                         'title': raw[i]['title'],
                         'date': raw[i]['pdate_src'],
                         'description': raw[i]['content'],

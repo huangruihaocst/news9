@@ -6,21 +6,38 @@ var siteMap = [
     [/qq\.com/, "腾讯"],
     [/weixin/, "微信"],
     [/sina/, "新浪"],
-    [/toutiao\.com/, "今日头条"]
+    [/toutiao/, "今日头条"],
+    [/legaldaily\.com/, "法制网"],
+    [/youth/, "中国青年网"],
+    [/xinhua/, "新华网"],
+    [/sohu/, "搜狐网"],
+    [/huanqiu/, "环球网"]
 ];
+
+function matchSiteMap(host){
+    for (var i = 0; i < siteMap.length; ++i) {
+        var match = host.match(siteMap[i][0]);
+        if (match) {
+            return siteMap[i][1];
+        }
+    }
+}
 
 function sourceAnalyzer(url) {
     var fragments = url.split("/");
     if (fragments.length >= 3) {
         var host = fragments[2];
-        for (var i = 0; i < siteMap.length; ++i) {
-            var match = host.match(siteMap[i][0]);
-            if (match) {
-                return siteMap[i][1];
-            }
+        var source = matchSiteMap(host);
+        if(source == undefined){
+            host = fragments[3];
+            source = matchSiteMap(host);
+        }else{
+            return source;
         }
+        if(source == undefined)return "Internet";
+        else return source;
     }
-    return "Internet";
+    return 'Internet';
 }
 
 $(document).ready(function(){
@@ -45,6 +62,9 @@ $(document).ready(function(){
                 var image = item.image;
                 var media = sourceAnalyzer(url);
                 var source = item.source;
+                if(source == '松鼠先生' || source == 'show'){
+                    source = media;
+                }
 
                 var img = "<img src=\"" + image + "\"/>";
                 var html = "<li><div><a href=\"" +

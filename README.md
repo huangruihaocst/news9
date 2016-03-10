@@ -20,7 +20,7 @@
     - mongo # 进入mongodb shell
         - use newsdb
         - db.createCollection('news') # 创建news表
-        - db.news.create({'url':1}, {unique:true})#防止重复
+        - db.news.create({'url':1}, {unique:true})# 防止重复
 3. 运行服务器
     - redis-server
     - cd nodejs
