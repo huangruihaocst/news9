@@ -41,7 +41,7 @@
         - 分页, 高级搜索
         - 分页 GET /api/news?offset=1&count=30
         - 高级搜索 GET /api/news?keywords=KEYWORDS&date=2016-01-01&date-margin=DATE_MARGIN
-        - KEYWORDS: json数组, 必须转移
+        - KEYWORDS: json数组, 必须转义
         - DATE_MARGIN: 整数, 天数
         - 每个字段都是可选项_
     
