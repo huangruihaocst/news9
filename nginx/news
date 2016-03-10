@@ -3,7 +3,7 @@ server {
 	listen [::]:80 default_server;
 
   # 这里填上项目目录public的路径
-	root /home/alexwang/dev/proj/nodejs/thupuller/public;
+	root /home/huangruihao/projects/TsinghuaBulletinBoard/public;
 
 	index index.html;
 

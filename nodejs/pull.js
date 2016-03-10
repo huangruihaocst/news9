@@ -9,7 +9,8 @@ var request = require("request");
 var Queue = require("bull");
 var sleep = require("sleep");
 
-var api_key = '606ef48abce1cb59a5694142d87a64df';
+var api_key_baidu = '606ef48abce1cb59a5694142d87a64df';
+var api_key_juhe = '0498f03cf3883cebc38d1bb1ca2fcea3';
 
 function saveToDatabase(objects, callback) {
     MongoClient.connect(url, function(err, db) {
@@ -39,8 +40,8 @@ function queryFrom(source, queryString, callback) {
         /* TODO 从某个API获取数据, 转换成以上格式并且调用callback(data) */
         case '松鼠先生':
             request({
-                uri: "http://apis.baidu.com/songshuxiansheng/real_time/search_news?keyword=" + escape(queryString),
-                headers: { 'apikey': api_key }
+                uri: "http://apis.baidu.com/songshuxiansheng/real_time/search_news?keyword=" + encodeURI(queryString),
+                headers: { 'apikey': api_key_baidu }
             }, function(err, _, response) {
                 var news = JSON.parse(response);
                 var raw = news['retData']['data'];//array
@@ -62,7 +63,7 @@ function queryFrom(source, queryString, callback) {
         case 'show':
             request({
                 uri: "http://apis.baidu.com/showapi_open_bus/channel_news/search_news?title=" + queryString,
-                headers: {'apikey': api_key }
+                headers: {'apikey': api_key_baidu }
             },function(err, _, data) {
                 var news = JSON.parse(data);
                 var raw = news['showapi_res_body']['pagebean']['contentlist'];//array
@@ -81,18 +82,38 @@ function queryFrom(source, queryString, callback) {
                 callback(content);
             });
             break;
+        case '聚合':
+            request({
+                uri: "http://op.juhe.cn/onebox/news/query?q=" + encodeURI(queryString) +
+                '&key=' + api_key_juhe
+                //headers: { 'apikey': api_key_baidu }
+            }, function(err, _, response) {
+                var news = JSON.parse(response);
+                console.log(queryString);
+                console.log(news);
+                var raw = news['result'];//array
+                var content = [];
+                for(var i = 0;i < raw.length; ++i){
+                    var object = {
+                        'source': '聚合',
+                        'title': raw[i]['title'],
+                        'date': raw[i]['pdate_src'],
+                        'description': raw[i]['content'],
+                        'url': raw[i]['url'],
+                        'image': raw[i]['img']
+                    };
+                    content.push(object);
+                }
+                callback(content);
+            });
+            break;
         default: // 从所有数据源获取数据
-            // 这里json/news.json是模拟一个数据源
-            //$.get("json/news.json", function(data, status) {
-            //    // 从真正数据源获取完数据
-            //    callback(data);
-            //});
     }
 }
 
 function startPulling(callback) {
-    var queryString = "清华";
-    var sources = [/*'松鼠先生',*/ 'show'];
+    var queryString = "清华大学";
+    var sources = ['松鼠先生', 'show', '聚合'];
     for (var i = 0; i < sources.length; ++i) {
         queryFrom(sources[i], queryString, function (result) {
             saveToDatabase(result, callback);

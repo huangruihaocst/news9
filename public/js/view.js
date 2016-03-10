@@ -44,10 +44,11 @@ $(document).ready(function(){
                 var title = item.title;
                 var image = item.image;
                 var media = sourceAnalyzer(url);
+                var source = item.source;
 
                 var img = "<img src=\"" + image + "\"/>";
                 var html = "<li><div><a href=\"" +
-                    url + "\">" + "(来自: " + media + ") " + title + "</a></div></li>";
+                    url + "\">" + "(来自: " + source + ") " + title + "</a></div></li>";
                 content_list.append(html);
             }
         }

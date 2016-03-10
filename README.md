@@ -20,6 +20,7 @@
     - mongo # 进入mongodb shell
         - use newsdb
         - db.createCollection('news') # 创建news表
+        - db.news.create({'url':1}, {unique:true})#防止重复
 3. 运行服务器
     - redis-server
     - cd nodejs
@@ -51,3 +52,4 @@
     - pull获取更多数据(现在是20条)
     - 添加根据日期查询的接口(现在能用,但是不会根据日期查询)
     - 尝试将图片也缓存下来
+    - 解析时间
