@@ -8,6 +8,9 @@
     - npm install express --save
     - npm install request --save
     - npm install mongodb --save
+    - npm install sleep --save
+1. 安装redis
+    - sudo apt-get install redis-server
 2. 安装mongodb
     - sudo apt-get install mongodb-server
         此时应该已经配置好了mongodb, 如果mongodb没启动, 则使用一下命令启动
@@ -18,6 +21,7 @@
         - use newsdb
         - db.createCollection('news') # 创建news表
 3. 运行服务器
+    - redis-server
     - cd nodejs
     - node main.js
 4. 配置nginx
@@ -26,3 +30,18 @@
     - sudo service nginx restart
     
 5. 浏览器打开http://localhost
+
+#  TODO
+    - 后端
+        - show 这个源搜索结果都是无关的
+        - 从api获取数据只能获取20条, 应该加两个字段, offset, count
+        - 聚合数据api
+    - 前端
+        - 图片显示参差不齐, 需要美化
+        - 分页, 高级搜索
+        - 分页 GET /api/news?offset=1&count=30
+        - 高级搜索 GET /api/news?keywords=KEYWORDS&date=2016-01-01&date-margin=DATE_MARGIN
+        - KEYWORDS: json数组, 必须转移
+        - DATE_MARGIN: 整数, 天数
+        - 每个字段都是可选项_
+    

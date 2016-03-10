@@ -29,9 +29,11 @@
     "start": "node main.js"
   },
   "dependencies": {
+    "bull": "^0.7.2",
     "express": "^4.13.4",
     "mongodb": "^2.1.7",
-    "request": "^2.69.0"
+    "request": "^2.69.0",
+    "sleep": "^3.0.1"
   },
   "devDependencies": {}
 }
