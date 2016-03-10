@@ -2,14 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>清华大学新闻</title>
     <script src="js/jquery-2.2.1.min.js"></script>
     <!-- js顺序不能颠倒 -->
     <script src="js/view.js"></script>
+    <link rel="stylesheet" type="text/css" href="Flat-UI-master/dist/css/vendor/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="Flat-UI-master/dist/css/flat-ui.min.css"/>
+    <script type="application/javascript" src="Flat-UI-master/dist/js/vendor/jquery.min.js"></script>
+    <script type="application/javascript" src="Flat-UI-master/docs/assets/js/application.js"></script>
+    <script type="application/javascript" src="Flat-UI-master/dist/js/flat-ui.min.js"></script>
+    <style>
+        img{
+            width : 128px;
+            height: 128px;
+            padding-left: 0;
+            float: right;
+        }
+    </style>
 </head>
 <body>
-<ul id="content_list">
-    <li>First</li>
-</ul>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>清华大学新闻</h1>
+            <p>这是一个聚集有关清华大学新闻的网站</p>
+            <p>
+                <a class="btn btn-lg btn-primary" href="https://accounts.net9.org">更多 »</a>
+            </p>
+        </div>
+        <ul id="content_list"></ul>
+    </div>
 </body>
 </html>

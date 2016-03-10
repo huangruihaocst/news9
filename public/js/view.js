@@ -60,6 +60,9 @@ $(document).ready(function(){
                 var url = item.url;
                 var title = item.title;
                 var image = item.image;
+                var date = item.date;
+                var description = item.description;
+                console.log(image);
                 var media = sourceAnalyzer(url);
                 var source = item.source;
                 if(source == '松鼠先生' || source == 'show'){
@@ -67,8 +70,9 @@ $(document).ready(function(){
                 }
 
                 var img = "<img src=\"" + image + "\"/>";
-                var html = "<li><div><a href=\"" +
-                    url + "\">" + "(来自: " + source + ") " + title + "</a></div></li>";
+                var html = "<div style='margin-top: 100px;margin-bottom: 100px'><a href=\"" +
+                    url + "\">" + title + "</a><p class='text-info'>" + source + "   " + date + "</p><p class='text-muted'>" +
+                    description + "</p><img src=\""+ image + "\" onerror=\"this.onerror=null;this.src='alt.jpg'\"/></li></div>";
                 content_list.append(html);
             }
         }
