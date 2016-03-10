@@ -27,9 +27,9 @@ $(document).ready(function(){
                 for (var i = 0; i < result.length; ++i) {
                     var item = result[i];
                     // TODO 这里可以修改从而美化界面, 可用的字段在server.js可以找到
-                    var url = item.get('url');
-                    var source = item.get('source');
-                    var title = item.get('title');
+                    var url = item.url;
+                    var source = item.source;
+                    var title = item.title;
                     content_list.append("<li><a href=\"" +
                         url + "\">(From: " + source + ") " +
                         title + "</a></li>");
