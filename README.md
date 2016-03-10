@@ -28,7 +28,7 @@
 4. 配置nginx
     - sudo apt-get install nginx
     - sudo nginx/news /etc/nginx/sites-enabled/news
-    - sudo service nginx restart
+    - sudo service nginx restarts
     
 5. 浏览器打开http://localhost
 
@@ -51,3 +51,10 @@
     - 添加根据日期查询的接口(现在能用,但是不会根据日期查询)
     - 尝试将图片也缓存下来
     - 解析时间
+# TODO ()
+    - 照片按照比例缩放
+    - 聚合新闻，⑨个，等XX网站均转载此
+    - line-height
+    - 兼容IE8
+    - bootstrap栅格， 图片和文字的相对位置
+    - url去重

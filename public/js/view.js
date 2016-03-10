@@ -71,10 +71,10 @@ $(document).ready(function(){
                 var description = source + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + date;
 
                 var img = "<img src=\"" + image + "\"/>";
-                var html = "<div style='margin-top: 100px;margin-bottom: 100px;width: 80%'><a href=\"" +
+                var html = "<li><div style='margin-top: 100px;margin-bottom: 100px;width: 80%'><a href=\"" +
                     url + "\">" + title + "</a><p class='text-info'>" + description + "</p><p class='text-muted'>" +
                     content + "</p></li></div>" + "<img src=\""+ image + "\" onerror=\"this.onerror=null;" +
-                    "this.src='alt.jpg'\"/>";
+                    "this.src='alt.jpg'\"/></li>";
                 content_list.append(html);
             }
         }
