@@ -6,7 +6,7 @@ var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var request = require("request");
 var sleep = require("sleep");
-var moment = require("moment");
+//var moment = require("moment");
 
 var url = 'mongodb://localhost:27017/newsdb';
 var api_key_baidu = '606ef48abce1cb59a5694142d87a64df';
@@ -135,7 +135,7 @@ function startPulling(callback) {
 //};
 //exports.start();
 
-var interval = 2 * 60 * 1000; // 2 minutes
+var interval = 30 * 1000; // 2 minutes
 setInterval(function() {
     startPulling();
 }, interval);
