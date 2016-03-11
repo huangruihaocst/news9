@@ -11,10 +11,10 @@
 2. 安装mongodb
     ```
     $ sudo apt-get install mongodb-server
-    \# 此时应该已经配置好了mongodb, 如果mongodb没启动, 则使用一下命令启动
-    \# $ sudo mkdir /data/db
-    \# $ sudo chown xxx:xxx /data/db
-    \# $ mongod # 启动mongodb服务器
+    # 此时应该已经配置好了mongodb, 如果mongodb没启动, 则使用一下命令启动
+    # $ sudo mkdir /data/db
+    # $ sudo chown xxx:xxx /data/db
+    # $ mongod # 启动mongodb服务器
     $ mongo mongo/create.js
     ```
 3. 运行服务器
@@ -26,7 +26,7 @@
 4. 配置nginx
     ```
     $ sudo apt-get install nginx
-    $ sudo nginx/news /etc/nginx/sites-enabled/news
+    $ sudo cp nginx/news /etc/nginx/sites-enabled/news
     $ sudo service nginx restarts
     ```
 5. 浏览器打开http://localhost
@@ -65,3 +65,4 @@
     - bootstrap栅格， 图片和文字的相对位置
     - url去重
     - 按时间排序
+    - 不是把没时间的隐去，是把没有时间的时间隐去
