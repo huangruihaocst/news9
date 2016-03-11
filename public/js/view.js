@@ -70,12 +70,14 @@ $(document).ready(function(){
                 }
                 var description = source + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + date;
 
-                var html = "<li>" +
-                    "<div class='row'>" + "<div class='col-md-9'><a><p href=\"" + url + "\">" +
-                    title + "</p></a><p class='text-info'>" + description + "</p><p class='text-muted'>" +
-                    content + "</p></div><div class='col-md-3'>" +
-                    "<img onerror='src=\"alt.jpg\";onerror=null;' src='"+ image + "'/></div></li>";
-                list.append(html);
+                if (date) {
+                    var html = "<li>" +
+                        "<div class='row'>" + "<div class='col-md-9'><a href=\"" + url + "\"><p>" +
+                        title + "</p></a><p class='text-info'>" + description + "</p><p class='text-muted'>" +
+                        content + "</p></div><div class='col-md-3'>" +
+                        "<img onerror='src=\"alt.jpg\";onerror=null;' src='" + image + "'/></div></li>";
+                    list.append(html);
+                }
             }
         }
     });

@@ -3,30 +3,41 @@
 ## 部署方法
 
 1. 安装node.js
-    - $ sudo apt-get install nodejs
-    - $ cd ProjectPath/nodejs
-    - $ npm install express --save
-    - $ npm install request --save
-    - $ npm install mongodb --save
-    - $ npm install sleep --save
+    ```
+    $ sudo apt-get install nodejs
+    $ cd ProjectPath/nodejs
+    $ npm install
+    ```
 2. 安装mongodb
-    - $ sudo apt-get install mongodb-server
-        此时应该已经配置好了mongodb, 如果mongodb没启动, 则使用一下命令启动
-        - $ sudo mkdir /data/db
-        - $ sudo chown xxx:xxx /data/db
-        - $ mongod # 启动mongodb服务器
-    - $ mongo mongo/create.js
+    ```
+    $ sudo apt-get install mongodb-server
+    \# 此时应该已经配置好了mongodb, 如果mongodb没启动, 则使用一下命令启动
+    \# $ sudo mkdir /data/db
+    \# $ sudo chown xxx:xxx /data/db
+    \# $ mongod # 启动mongodb服务器
+    $ mongo mongo/create.js
+    ```
 3. 运行服务器
-    - $ cd nodejs
-    - $ node nodejs/main.js
-    - 使用某种工具维持该进程执行(如果死掉则重启) node nodejs/pull.js
+    ```
+    $ cd nodejs
+    $ node nodejs/main.js
+    使用某种工具维持该进程执行(如果死掉则重启) node nodejs/pull.js
+    ```
 4. 配置nginx
-    - $ sudo apt-get install nginx
-    - $ sudo nginx/news /etc/nginx/sites-enabled/news
-    - $ sudo service nginx restarts
-    
+    ```
+    $ sudo apt-get install nginx
+    $ sudo nginx/news /etc/nginx/sites-enabled/news
+    $ sudo service nginx restarts
+    ```
 5. 浏览器打开http://localhost
 
+## 清数据库重启方法
+    $ mongo mongodb/recreate.js
+    重启node nodejs/main.js
+    重启node nodejs/pull.js
+
+    
+## TODOs
 * TODO(assigned to huangruihaocst@126.com)
     - 后端(优先级从高到低)
         - 从api获取数据这些代码需要非常鲁棒, 现在的情况是偶尔会崩溃(null pointer?)导致整个服务器退出

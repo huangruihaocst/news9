@@ -4,30 +4,38 @@
 
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
-var url = 'mongodb://localhost:27017/newsdb';
 var request = require("request");
 var sleep = require("sleep");
+var moment = require("moment");
 
+var url = 'mongodb://localhost:27017/newsdb';
 var api_key_baidu = '606ef48abce1cb59a5694142d87a64df';
 var api_key_juhe = '0498f03cf3883cebc38d1bb1ca2fcea3';
 
 function saveToDatabase(objects, callback) {
     MongoClient.connect(url, function(err, db) {
-        db.collection('news').insertMany(objects, function (err, result) {
-            if (err == null) {
-                console.log("Inserted " + objects.length + " items into the news collection.");
-                db.close();
-                if (callback) {
-                    callback(true);
+        try {
+            db.collection('news').insertMany(objects, function (err, result) {
+                if (err == null) {
+                    console.log("Inserted " + objects.length + " items into the news collection.");
+                    db.close();
+                    if (callback) {
+                        callback(true);
+                    }
                 }
-            }
-            else {
-                console.log("Failed to insert!");
-                if (callback) {
-                    callback(false);
+                else {
+                    console.log("Inserted 0 item into the news collection!");
+                    if (callback) {
+                        callback(false);
+                    }
                 }
+            });
+        }
+        catch (exception) {
+            if (typeof exception != 'MongoError') {
+                console.log(exception);
             }
-        });
+        }
     });
 }
 
