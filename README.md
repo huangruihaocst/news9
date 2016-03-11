@@ -19,6 +19,7 @@
 3. 运行服务器
     - $ cd nodejs
     - $ node nodejs/main.js
+    - 使用某种工具维持该进程执行(如果死掉则重启) node nodejs/pull.js
 4. 配置nginx
     - $ sudo apt-get install nginx
     - $ sudo nginx/news /etc/nginx/sites-enabled/news
