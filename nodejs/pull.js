@@ -47,7 +47,7 @@ function queryFrom(source, queryString, callback) {
         /* TODO 从某个API获取数据, 转换成以上格式并且调用callback(data) */
         case '松鼠先生':
             request({
-                uri: "http://apis.baidu.com/songshuxiansheng/real_time/search_news?keyword=" + encodeURI(queryString),
+                uri: "http://apis.baidu.com/songshuxiansheng/real_time/search_news?count=100&keyword=" + encodeURI(queryString),
                 headers: { 'apikey': api_key_baidu }
             }, function(err, _, response) {
                 var news = JSON.parse(response);
@@ -139,3 +139,4 @@ var interval = 2 * 60 * 1000; // 2 minutes
 setInterval(function() {
     startPulling();
 }, interval);
+startPulling();
