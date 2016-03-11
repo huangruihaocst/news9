@@ -11,7 +11,7 @@ var findNews = function(db, params, callback) {
     var query = {};
     if (params['keywords']) {
         try {
-            var keywords = JSON.parse(unescape(params['keywords']));
+            var keywords = JSON.parse(decodeURI(params['keywords']));
             var str = keywords.map(function (x) {
                 return "(" + x.replace(/\.|\*|\$|\(|\)/, "") + ")"
             }).join("|");
@@ -46,8 +46,6 @@ app.get('/api/news', function (request, respond) {
         });
     });
 });
-
-//Puller.start();
 
 app.listen(API_SERVER_PORT, function () {
     console.log('server listening on port 3000!');
