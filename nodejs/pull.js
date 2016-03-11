@@ -6,7 +6,6 @@ var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var url = 'mongodb://localhost:27017/newsdb';
 var request = require("request");
-var Queue = require("bull");
 var sleep = require("sleep");
 
 var api_key_baidu = '606ef48abce1cb59a5694142d87a64df';
@@ -120,15 +119,15 @@ function startPulling(callback) {
         });
     }
 }
-exports.start = function() {
-    var puller = Queue("puller", 6379, "127.0.0.1");
-    puller.process(function(job, done) {
-        startPulling(function() {
-            puller.add({}, { delay: 10 * 1000 });
-            done();
-        });
-    });
-    puller.add();
-    console.log("pulling started");
-};
-exports.start();
+//exports.start = function() {
+//    var callback = function() {
+//        startPulling()
+//    };
+//    startPulling(callback());
+//};
+//exports.start();
+
+var interval = 2 * 60 * 1000; // 2 minutes
+setInterval(function() {
+    startPulling();
+}, interval);

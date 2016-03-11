@@ -4,7 +4,8 @@ var url = require("url");
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var mongoUrl = 'mongodb://localhost:27017/newsdb';
-//var Puller = require('./pull.js');
+
+API_SERVER_PORT = 3000;
 
 var findNews = function(db, params, callback) {
     var query = {};
@@ -48,6 +49,6 @@ app.get('/api/news', function (request, respond) {
 
 //Puller.start();
 
-app.listen(3000, function () {
+app.listen(API_SERVER_PORT, function () {
     console.log('server listening on port 3000!');
 });
