@@ -1,6 +1,9 @@
 /**
  * Created by huangruihao on 16-3-7.
  */
+var JQuery = require('jquery');
+var API_HOST = 'news.net9.org';
+var HTTP_SCHEME = 'https://';
 
 var siteMap = [
     [/qq\.com/, "腾讯"],
@@ -40,20 +43,20 @@ function sourceAnalyzer(url) {
     return 'Internet';
 }
 
-$(document).ready(function(){
+JQuery(document).ready(function(){
     var keyword = "thu";
     var media = "";
     var date = "";
     var queryString = [keyword, media, date].join(" ");
-    $.ajax({
+    JQuery.ajax({
         type: "GET",
-        url: "/api/news",
+        url: HTTP_SCHEME + API_HOST + "/api/news",
         crossDomain : true,
         xhrFields: {
             withCredentials: true
         },
         success: function (result) {
-            var list = $("#list");
+            var list = JQuery("#list");
             for (var i = 0; i < result.length; ++i) {
                 var item = result[i];
                 // TODO 这里可以修改从而美化界面, 可用的字段在server.js可以找到
