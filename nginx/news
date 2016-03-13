@@ -2,7 +2,7 @@ server {
 	listen 80 default_server;
 	listen [::]:80 default_server;
 
-  # 这里填上项目目录public的路径
+    # 这里填上项目目录public的路径
 	root /home/huangruihao/projects/TsinghuaBulletinBoard/public;
 
 	index index.html;
@@ -12,8 +12,7 @@ server {
 	location /api {
 		proxy_pass http://localhost:3000;
 	}
-  location / {
-  #  root /home/alexwang/dev/proj/nodejs/thupuller;
-  }
+    location / {
+    }
 }
 

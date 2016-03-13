@@ -6,7 +6,9 @@ var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var request = require("request");
 var sleep = require("sleep");
-//var moment = require("moment");
+// 假定每页20个, 一共20页
+ITEMS_PER_PAGE = 20;
+PAGE_COUNT = 20;
 
 var url = 'mongodb://localhost:27017/newsdb';
 var api_key_baidu = '606ef48abce1cb59a5694142d87a64df';
@@ -118,10 +120,6 @@ function queryFrom(source, queryString, offset, count, callback) {
     }
 }
 
-// 假定每页20个, 一共20页
-ITEMS_PER_PAGE = 20;
-PAGE_COUNT = 20;
-
 function startPulling(callback) {
     var queryString = "清华大学";
     var sources = ['松鼠先生', 'show', '聚合'];
@@ -133,13 +131,6 @@ function startPulling(callback) {
         }
     }
 }
-//exports.start = function() {
-//    var callback = function() {
-//        startPulling()
-//    };
-//    startPulling(callback());
-//};
-//exports.start();
 
 var interval = 30 * 1000; // 2 minutes
 setInterval(function() {
