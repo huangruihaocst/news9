@@ -50,7 +50,7 @@
     - 前端(优先级从高到低)
         - ~~图片显示参差不齐, 需要美化~~
         - 分页 
-            - GET /api/news?offset=1&count=30
+            - ~~GET /api/news?offset=1&count=30~~
         - 高级搜索 GET /api/news?keywords=KEYWORDS&date=2016-01-01&date-margin=DATE_MARGIN
             - KEYWORDS: json数组, 必须转义
             - DATE_MARGIN: 整数, 天数
