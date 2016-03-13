@@ -6,6 +6,7 @@ var assert = require('assert');
 var mongoUrl = 'mongodb://localhost:27017/newsdb';
 
 API_SERVER_PORT = 3000;
+DEFAULT_ITEMS_PER_PAGE = 20;
 
 var findNews = function(db, params, callback) {
     var query = {};
@@ -20,6 +21,15 @@ var findNews = function(db, params, callback) {
         catch (exception) {
             console.log(exception);
         }
+    }
+    var pager = {};
+    if (params['offset']) {
+        pager['skip'] = parseInt(params['offset']);
+        if (isNaN(pager['skip'])) pager['skip'] =  0;
+    }
+    if (params['count']) {
+        pager['count'] = parseInt(params['count']);
+        if (isNaN(pager['count'])) pager['count'] =  DEFAULT_ITEMS_PER_PAGE;
     }
 
     var cursor = db.collection('news').find(query);
