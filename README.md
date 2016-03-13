@@ -15,7 +15,7 @@
     # $ sudo mkdir /data/db
     # $ sudo chown xxx:xxx /data/db
     # $ mongod # 启动mongodb服务器
-    $ mongo mongo/create.js
+    $ mongo mongodb/create.js
     ```
 3. 运行服务器
     ```
