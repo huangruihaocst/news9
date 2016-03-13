@@ -28,11 +28,11 @@ var findNews = function(db, params, callback) {
         if (isNaN(pager['skip'])) pager['skip'] =  0;
     }
     if (params['count']) {
-        pager['count'] = parseInt(params['count']);
-        if (isNaN(pager['count'])) pager['count'] =  DEFAULT_ITEMS_PER_PAGE;
+        pager['limit'] = parseInt(params['count']);
+        if (isNaN(pager['limit'])) pager['limit'] =  DEFAULT_ITEMS_PER_PAGE;
     }
 
-    var cursor = db.collection('news').find(query);
+    var cursor = db.collection('news').find(query, pager);
     var rows = [];
     cursor.each(function(err, item) {
         assert.equal(err, null);
