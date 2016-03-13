@@ -39,7 +39,7 @@ function saveToDatabase(objects, callback) {
     });
 }
 
-function queryFrom(source, queryString, callback) {
+function queryFrom(source, queryString, offset, count, callback) {
     // 这里写从真正的数据源获取数据, 并且统一成如下的数据格式
     // { "source": "sogou", "title": "xxx", "date": "20150101", "description": "xxx", "url": "http://www.baidu.com",
     // "image":"xxx"}
@@ -118,13 +118,19 @@ function queryFrom(source, queryString, callback) {
     }
 }
 
+// 假定每页20个, 一共20页
+ITEMS_PER_PAGE = 20;
+PAGE_COUNT = 20;
+
 function startPulling(callback) {
     var queryString = "清华大学";
     var sources = ['松鼠先生', 'show', '聚合'];
     for (var i = 0; i < sources.length; ++i) {
-        queryFrom(sources[i], queryString, function (result) {
-            saveToDatabase(result, callback);
-        });
+        for (var j = 0; j < PAGE_COUNT; ++j) {
+            queryFrom(sources[i], queryString, ITEMS_PER_PAGE * j, ITEMS_PER_PAGE, function (result) {
+                saveToDatabase(result, callback);
+            });
+        }
     }
 }
 //exports.start = function() {

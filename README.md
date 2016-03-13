@@ -29,7 +29,12 @@
     $ sudo cp nginx/news /etc/nginx/sites-enabled/news
     $ sudo service nginx restarts
     ```
-5. 浏览器打开http://localhost
+5. 客户端启动方法
+    ```
+    $ sudo npm install electron-prebuilt -g
+    $ cd public && npm install
+    $ electron .
+    ```
 
 ## 清数据库重启方法
     $ mongo mongodb/recreate.js
@@ -55,7 +60,7 @@
     
 * TODO(assigned to Alex Wang)
     - ~~使用supervisor维持服务持续运转~~
-    - pull获取更多数据(现在是20条)
+    - ~~pull获取更多数据(现在是20条)~~
     - 添加根据日期查询的接口(现在能用,但是不会根据日期查询)
     - 尝试将图片也缓存下来
     - 解析时间
