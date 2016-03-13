@@ -45,7 +45,7 @@
 ## TODOs
 * TODO(assigned to huangruihaocst@126.com)
     - 后端(优先级从高到低)
-        - 从api获取数据这些代码需要非常鲁棒, 现在的情况是偶尔会崩溃(null pointer?)导致整个服务器退出
+        - ~~从api获取数据这些代码需要非常鲁棒, 现在的情况是偶尔会崩溃(null pointer?)导致整个服务器退出~~
         - 从api获取数据只能获取20条, 应该加两个字段, offset, count
     - 前端(优先级从高到低)
         - ~~图片显示参差不齐, 需要美化~~
