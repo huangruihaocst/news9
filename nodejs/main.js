@@ -27,15 +27,19 @@ var findNews = function(db, params, callback) {
             console.log(exception);
         }
     }
-    if (params['startDate'] && params['endDate']) {
+    query['date'] = {};
+    if (params['startDate']) {
         var date = new Date();
         var startDate = new Date(decodeURI(params['startDate']));
+        if (isValidDate(startDate)) {
+            query['date']['$gt'] = startDate;
+        }
+    }
+    if (params['endDate']) {
+        date = new Date();
         var endDate = new Date(decodeURI(params['endDate']));
-        if (isValidDate(startDate) && isValidDate(endDate)) {
-            query['date'] = {
-                $gte: startDate,
-                $lt: endDate
-            };
+        if (isValidDate(endDate)) {
+            query['date']['$lt'] = endDate;
         }
     }
     var pager = {};
