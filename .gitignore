@@ -2,4 +2,5 @@
 *~
 *.log
 /nodejs/node_modules/*
+/public/node_modules/*
 dump.rdb

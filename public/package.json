@@ -23,10 +23,15 @@
     {
       "name": "Alex Wang",
       "email": "ice_b0und@hotmail.com"
+    },
+    {
+      "name": "HuangRuihao",
+      "email": "huangruihaocst@126.com"
     }
   ],
+  "main": "main.js",
   "scripts": {
-    "start": "node main.js"
+    "start": "electron main.js"
   },
   "dependencies": {
     "dateformat": "^1.0.12",

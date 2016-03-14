@@ -6,7 +6,13 @@ var assert = require('assert');
 var mongoUrl = 'mongodb://localhost:27017/newsdb';
 
 API_SERVER_PORT = 3000;
+DEFAULT_ITEMS_PER_PAGE = 20;
 
+function isValidDate(d) {
+    if ( Object.prototype.toString.call(d) !== "[object Date]" )
+        return false;
+    return !isNaN(d.getTime());
+}
 var findNews = function(db, params, callback) {
     var query = {};
     if (params['keywords']) {
@@ -22,7 +28,35 @@ var findNews = function(db, params, callback) {
         }
     }
 
-    var cursor = db.collection('news').find(query);
+    query['date'] = {};
+    if (params['startDate']) {
+        var startDate = new Date(decodeURI(params['startDate']));
+        if (isValidDate(startDate)) {
+            query['date']['$gt'] = startDate;
+        }
+    }
+    if (params['endDate']) {
+        var endDate = new Date(decodeURI(params['endDate']));
+        if (isValidDate(endDate)) {
+            query['date']['$lt'] = endDate;
+        }
+    }
+    if (!params['startDate'] && !params['endDate']) {
+        delete query['date'];
+    }
+
+    var pager = {};
+    if (params['offset']) {
+        pager['skip'] = parseInt(params['offset']);
+        if (isNaN(pager['skip'])) pager['skip'] =  0;
+    }
+    if (params['count']) {
+        pager['limit'] = parseInt(params['count']);
+        if (isNaN(pager['limit'])) pager['limit'] =  DEFAULT_ITEMS_PER_PAGE;
+    }
+
+
+    var cursor = db.collection('news').find(query, pager).sort({ date: -1 });
     var rows = [];
     cursor.each(function(err, item) {
         assert.equal(err, null);
