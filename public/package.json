@@ -1,8 +1,9 @@
 {
-  "name"    : "news",
-  "version" : "0.1.0",
-  "main"    : "main.js",
-  "dependencies" : {
-    "jquery" : "latest"
+  "name": "news",
+  "version": "0.1.0",
+  "main": "main.js",
+  "dependencies": {
+    "dateformat": "^1.0.12",
+    "jquery": "latest"
   }
 }

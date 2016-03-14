@@ -2,8 +2,9 @@
  * Created by huangruihao on 16-3-7.
  */
 var JQuery = require('jquery');
-var API_HOST = 'news.net9.org';
-var HTTP_SCHEME = 'https://';
+var dateFormat = require('dateformat');
+var API_HOST = 'localhost';
+var HTTP_SCHEME = 'http://';
 
 var siteMap = [
     [/qq\.com/, "腾讯"],
@@ -63,7 +64,7 @@ JQuery(document).ready(function(){
                 var url = item.url;
                 var title = item.title;
                 var image = item.image;
-                var date = item.date;
+                var date = dateFormat(item.date, "yyyy-mm-dd, h:MM:ss TT");
                 var content = item.description;
                 console.log(image);
                 var media = sourceAnalyzer(url);
