@@ -53,19 +53,47 @@ function isValid(item){
     return url != null && title != null && date != null && source != null;
 }
 
-function initPage() {
-    var keyword = "thu";
-    var media = "";
-    var date = "";
-    var queryString = [keyword, media, date].join(" ");
+function getPage(keyword, start, end) {
+    var k = '';
+    var s = '';
+    var e = '';
+    var para = 0;
+    var attachment = '';
+    if(keyword != undefined){
+        k = 'keywords=' + keyword;
+        para ++;
+    }
+    if(start != undefined && start != encodeURI(new Date(''))){
+        s = 'startDate=' + encodeURI(start);
+        para ++;
+    }
+    if(end != undefined && end != encodeURI(new Date(''))){
+        e = 'endDate=' + encodeURI(end);
+        para ++;
+    }
+    if(para == 1){
+        attachment = '?' + k + s + e;
+    }else if(para == 2){
+        if(k == ''){
+            attachment = '?' + s + '&' + e;
+        }else if(s == ''){
+            attachment = '?' + k + '&' + e;
+        }else{
+            attachment = '?' + k + '&' + s;
+        }
+    }else if(para == 3){
+        attachment = '?' + k + '&' + s + '&' + e;
+    }
     $.ajax({
         type: "GET",
-        url: HTTP_SCHEME + API_HOST + "/api/news",
+        url: HTTP_SCHEME + API_HOST + '/api/news' +attachment,
         crossDomain: true,
         xhrFields: {
             withCredentials: true
         },
         success: function (result) {
+            console.log(keyword);
+            console.log(HTTP_SCHEME + API_HOST + '/api/news' +attachment);
             var list = $("#list");
             for (var i = 0; i < result.length; ++i) {
                 var item = result[i];
@@ -92,10 +120,10 @@ function initPage() {
                         content + "</p></div><div class='col-md-3'>" +
                         "<img class='scaled' onerror='src=\"alt.jpg\";onerror=null;' src='" + image +
                         "'/></div></li>";
+                    list.innerHTML = '';
                     list.append(html);
 
                     var scaled = document.getElementsByClassName('scaled');
-                    console.log(scaled.length);
                     for (var j = 0; j < scaled.length; ++j) {
                         scaled[j].onload = function () {
                             var width = this.width;
@@ -116,10 +144,11 @@ function initPage() {
 }
 
 $(document).ready(function() {
-    initPage();
+    getPage();
+    document.getElementById('search').onclick = function(){
+        var keyword = document.getElementById('keyword').value;
+        var start = new Date(document.getElementById('start').value);
+        var end = new Date(document.getElementById('end').value);
+        getPage(keyword, start, end);
+    };
 });
-
-$('#search').onclick = function () {
-    var keyword = $('#keyword').text();
-    alert(keyword);
-};
