@@ -1,8 +1,45 @@
 {
-  "name"    : "news",
-  "version" : "0.1.0",
-  "main"    : "main.js",
-  "dependencies" : {
-    "jquery" : "latest"
-  }
+  "name": "TsinghuaNews",
+  "version": "0.0.1",
+  "author": "thu",
+  "description": "thu news server",
+  "keywords": [
+    "node.js",
+    "javascript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://git.net9.org/hrh14/TsinghuaBulletinBoard"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": "latest"
+  },
+  "bugs": {
+    "url": "https://git.net9.org/hrh14/TsinghuaBulletinBoard",
+    "email": "ice_b0und@hotmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Alex Wang",
+      "email": "ice_b0und@hotmail.com"
+    },
+    {
+      "name": "HuangRuihao",
+      "email": "huangruihaocst@126.com"
+    }
+  ],
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "dateformat": "^1.0.12",
+    "express": "^4.13.4",
+    "jquery": "^2.2.1",
+    "mongodb": "^2.1.7",
+    "request": "^2.69.0",
+    "sleep": "^3.0.1",
+    "open": "0.0.5"
+  },
+  "devDependencies": {}
 }

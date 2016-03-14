@@ -8,6 +8,11 @@ var mongoUrl = 'mongodb://localhost:27017/newsdb';
 API_SERVER_PORT = 3000;
 DEFAULT_ITEMS_PER_PAGE = 20;
 
+function isValidDate(d) {
+    if ( Object.prototype.toString.call(d) !== "[object Date]" )
+        return false;
+    return !isNaN(d.getTime());
+}
 var findNews = function(db, params, callback) {
     var query = {};
     if (params['keywords']) {
@@ -22,6 +27,17 @@ var findNews = function(db, params, callback) {
             console.log(exception);
         }
     }
+    if (params['startDate'] && params['endDate']) {
+        var date = new Date();
+        var startDate = new Date(decodeURI(params['startDate']));
+        var endDate = new Date(decodeURI(params['endDate']));
+        if (isValidDate(startDate) && isValidDate(endDate)) {
+            query['date'] = {
+                $gte: startDate,
+                $lt: endDate
+            };
+        }
+    }
     var pager = {};
     if (params['offset']) {
         pager['skip'] = parseInt(params['offset']);
@@ -32,7 +48,8 @@ var findNews = function(db, params, callback) {
         if (isNaN(pager['limit'])) pager['limit'] =  DEFAULT_ITEMS_PER_PAGE;
     }
 
-    var cursor = db.collection('news').find(query, pager);
+
+    var cursor = db.collection('news').find(query, pager).sort({ date: -1 });
     var rows = [];
     cursor.each(function(err, item) {
         assert.equal(err, null);
