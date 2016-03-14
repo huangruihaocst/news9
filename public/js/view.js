@@ -76,7 +76,7 @@ function initPage() {
 
                 if (date) {
                     var html = "<li>" +
-                        "<div class='row'>" + "<div class='col-md-9'><a href=\"" + url + "\"><p>" +
+                        "<div class='row'>" + "<div class='col-md-9'><a href=\"" + url + "\" target='_blank'><p>" +
                         title + "</p></a><p class='text-info'>" + description + "</p><p class='text-muted'>" +
                         content + "</p></div><div class='col-md-3'>" +
                         "<img onerror='src=\"alt.jpg\";onerror=null;' src='" + image + "'/></div></li>";

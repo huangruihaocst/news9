@@ -1,5 +1,5 @@
 var app = require('app');  // 控制应用生命周期的模块。
-
+var open = require("open");
 var BrowserWindow = require('browser-window');  // 创建原生浏览器窗口的模块
 
 // 保持一个对于 window 对象的全局引用，不然，当 JavaScript 被 GC，
@@ -33,5 +33,9 @@ app.on('ready', function() {
         // 通常会把多个 window 对象存放在一个数组里面，
         // 但这次不是。
         mainWindow = null;
+    });
+    MainWindow.webContents.on('new-window', function(event, url){
+        event.preventDefault();
+        open(url);
     });
 });
