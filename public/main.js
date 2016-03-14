@@ -22,7 +22,13 @@ app.on('ready', function() {
     MainWindow = new BrowserWindow({width: 800, height: 600});
 
     // 加载应用的 index.html
-    MainWindow.loadURL('file://' + __dirname + '/index.html');
+    if (MainWindow['loadURL']) {
+        MainWindow.loadURL('file://' + __dirname + '/index.html');
+    }
+    else {
+        MainWindow.loadUrl('file://' + __dirname + '/index.html');
+    }
+
 
     // 打开开发工具
     // MainWindow.openDevTools();
