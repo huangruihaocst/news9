@@ -1,7 +1,7 @@
 /**
  * Created by huangruihao on 16-3-7.
  */
-var JQuery = require('jquery');
+var $ = require('jquery');
 var dateFormat = require('dateformat');
 var API_HOST = 'localhost';
 var HTTP_SCHEME = 'http://';
@@ -44,12 +44,12 @@ function sourceAnalyzer(url) {
     return 'Internet';
 }
 
-JQuery(document).ready(function(){
+function initPage() {
     var keyword = "thu";
     var media = "";
     var date = "";
     var queryString = [keyword, media, date].join(" ");
-    JQuery.ajax({
+    $.ajax({
         type: "GET",
         url: HTTP_SCHEME + API_HOST + "/api/news",
         crossDomain : true,
@@ -57,7 +57,7 @@ JQuery(document).ready(function(){
             withCredentials: true
         },
         success: function (result) {
-            var list = JQuery("#list");
+            var list = $("#list");
             for (var i = 0; i < result.length; ++i) {
                 var item = result[i];
                 // TODO 这里可以修改从而美化界面, 可用的字段在server.js可以找到
@@ -85,4 +85,8 @@ JQuery(document).ready(function(){
             }
         }
     });
+}
+
+$(document).ready(function(){
+    initPage();
 });
