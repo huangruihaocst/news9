@@ -53,8 +53,8 @@
             - ~~GET /api/news?offset=1&count=30~~
         - 高级搜索 GET /api/news?keywords=KEYWORDS&startDate=encodeURI(DateObject)&endDate=encodeURI(DateObject)
             - KEYWORDS: json数组, 必须转义
-            - DATE_MARGIN: 整数, 天数
-            - 每个字段都是可选项_
+            - startDate, endDate中的DateObject是javascript中Date对象
+            - 每个字段都是可选项
         - 照片按照比例缩放
         - 不是把没时间的隐去，是把没有时间的时间隐去
     
