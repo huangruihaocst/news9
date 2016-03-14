@@ -82,7 +82,7 @@ $(document).ready(function() {
                         if (source == '松鼠先生' || source == 'show') {
                             source = media;
                         }
-                        var description = source + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + date;
+                        var description = source + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + dateFormat(date, "yyyy-mm-dd, hh:MM:ss");
                         if (source == '松鼠先生' || source == 'show') {
                             source = media;
                         }
