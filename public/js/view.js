@@ -2,8 +2,8 @@
  * Created by huangruihao on 16-3-7.
  */
 var $ = require('jquery');
-var API_HOST = 'localhost';//'news.net9.org';
-var HTTP_SCHEME = 'http://';
+var API_HOST = 'news.net9.org';
+var HTTP_SCHEME = 'https://';
 var MAX_SIZE = 128;
 var dateFormat = require('dateformat');
 
@@ -16,7 +16,10 @@ var siteMap = [
     [/youth/, "中国青年网"],
     [/xinhua/, "新华网"],
     [/sohu/, "搜狐网"],
-    [/huanqiu/, "环球网"]
+    [/huanqiu/, "环球网"],
+    [/huaxi100\.com/, "华西新闻"],
+    [/thepaper\.cn/, "澎湃"],
+    [/asiafinance\.cn/, "亚洲财经"]
 ];
 
 function matchSiteMap(host){
