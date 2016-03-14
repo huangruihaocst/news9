@@ -85,7 +85,9 @@ function queryFrom(source, queryString, offset, count, callback) {
                             'url': raw[i]['url'],
                             'image': raw[i]['img_url']
                         };
-                        content.push(object);
+                        if (object.title.indexOf(TSINGHUA) > -1 && object.description.indexOf(TSINGHUA) > -1) {
+                            content.push(object);
+                        }
                     }
                     callback(content);
                     }
@@ -115,7 +117,9 @@ function queryFrom(source, queryString, offset, count, callback) {
                         'url': raw[i]['link'],
                         'image': raw[i]['imageurls'].length > 0 ? raw[i]['imageurls'][0]['url'] : null
                     };
-                    content.push(object);
+                    if (object.title.indexOf(TSINGHUA) > -1 && object.description.indexOf(TSINGHUA) > -1) {
+                        content.push(object);
+                    }
                 }
                 callback(content);
             });
