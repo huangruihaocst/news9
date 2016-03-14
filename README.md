@@ -48,7 +48,7 @@
         - ~~从api获取数据只能获取20条, 应该加两个字段, offset, count~~
     - 前端(优先级从高到低)
         - ~~图片显示参差不齐, 需要美化~~
-        - 分页 
+        - 分页
             - ~~GET /api/news?offset=1&count=30~~
         - 高级搜索 GET /api/news?keywords=KEYWORDS&startDate=encodeURI(DateObject)&endDate=encodeURI(DateObject)
             - ~~KEYWORDS: json数组, 必须转义~~
@@ -56,7 +56,7 @@
             - ~~每个字段都是可选项~~
         - ~~照片按照比例缩放~~
         - 不是把没时间的隐去，是把没有时间的时间隐去
-    
+
 * TODO(assigned to Alex Wang)
     - ~~使用supervisor维持服务持续运转~~
     - ~~pull获取更多数据(现在是20条)~~
@@ -71,3 +71,12 @@
     - ~~bootstrap栅格， 图片和文字的相对位置~~
     - ~~url去重~~
     - 添加后退与前进键
+
+* TODO ()
+
+    - 浏览器也能看
+      - 把所有资源放在远端（渐进增强）
+    - 过滤日期 min()~max()
+    - 看一下全文搜索 (optional)
+    - 空白结果
+    - 出错提示
