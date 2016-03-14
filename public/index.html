@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -29,6 +29,13 @@
             padding-top: 2em;
             padding-bottom: 2em;
         }
+        #list{
+            transition: opacity 0.5s;
+        }
+        #list._hidden{
+            opacity: 0;
+        }
+
     </style>
 </head>
 <body>
@@ -37,7 +44,7 @@
         <div class="jumbotron">
             <h1>清华大学相关新闻摘要</h1>
         </div>
-        <form>
+        <form id="filterForm">
             <div style="padding-bottom: 60px">
                 <input class="form-control typeahead-only input-lg tt-input"
                        style="background-color: transparent; width: 20%;float: left; margin-left: 13%"
@@ -47,7 +54,7 @@
                 <p style="float: left;margin-top: 6px;margin-left: 8px">到</p>
                 <input style="float: left;width: 20%;margin-left: 10px" type="date" placeholder="终止时间"
                        class="form-control typeahead-only input-lg" id="end"/>
-                <button style="margin-left: 10px" class="btn btn-primary btn-lg" id="search" type="button">
+                <button style="margin-left: 10px" class="btn btn-primary btn-lg" id="search" type="submit">
                     筛选</button>
             </div>
         </form>

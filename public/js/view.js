@@ -87,66 +87,71 @@ function getPage(keyword, start, end) {
     }else if(para == 3){
         attachment = '?' + k + '&' + s + '&' + e;
     }
-    $.ajax({
-        type: "GET",
-        url: HTTP_SCHEME + API_HOST + '/api/news' + attachment,
-        crossDomain: true,
-        xhrFields: {
-            withCredentials: true
-        },
-        success: function (result) {
-            var list = $("#list");
-            list.empty();
-            for (var i = 0; i < result.length; ++i) {
-                var item = result[i];
-                // TODO: 这里可以修改从而美化界面, 可用的字段在server.js可以找到
-                if (isValid(item)) {
-                    var url = item.url;
-                    var title = item.title;
-                    var image = item.image;
-                    var date = item.date;
-                    var content = item.description;
-                    var media = sourceAnalyzer(url);
-                    var source = item.source;
-                    if (source == '松鼠先生' || source == 'show') {
-                        source = media;
-                    }
-                    var description = source + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + dateFormat(date, "yyyy-mm-dd, hh:MM:ss");
-                    if (source == '松鼠先生' || source == 'show') {
-                        source = media;
-                    }
+    $("#list").addClass("_hidden");
+    setTimeout(function(){
+      $.ajax({
+          type: "GET",
+          url: HTTP_SCHEME + API_HOST + '/api/news' + attachment,
+          crossDomain: true,
+          xhrFields: {
+              withCredentials: true
+          },
+          success: function (result) {
+              var list = $("#list");
+              list.empty();
+              for (var i = 0; i < result.length; ++i) {
+                  var item = result[i];
+                  // TODO: 这里可以修改从而美化界面, 可用的字段在server.js可以找到
+                  if (isValid(item)) {
+                      var url = item.url;
+                      var title = item.title;
+                      var image = item.image;
+                      var date = item.date;
+                      var content = item.description;
+                      var media = sourceAnalyzer(url);
+                      var source = item.source;
+                      if (source == '松鼠先生' || source == 'show') {
+                          source = media;
+                      }
+                      var description = source + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + dateFormat(date, "yyyy-mm-dd, hh:MM:ss");
+                      if (source == '松鼠先生' || source == 'show') {
+                          source = media;
+                      }
 
-                    var html = "<li>" +
-                        "<div class='row'>" + "<div class='col-md-9'><a href=\"" + url + "\" target='_blank'><p>" +
-                        title + "</p></a><p class='text-info'>" + description + "</p><p class='text-muted'>" +
-                        content + "</p></div><div class='col-md-3'>" +
-                        "<img class='scaled' onerror='src=\"alt.jpg\";onerror=null;' src='" + image +
-                        "'/></div></li>";
-                    list.append(html);
+                      var html = "<li>" +
+                          "<div class='row'>" + "<div class='col-md-9'><a href=\"" + url + "\" target='_blank'><p>" +
+                          title + "</p></a><p class='text-info'>" + description + "</p><p class='text-muted'>" +
+                          content + "</p></div><div class='col-md-3'>" +
+                          "<img class='scaled' onerror='src=\"alt.jpg\";onerror=null;' src='" + image +
+                          "'/></div></li>";
+                      list.append(html);
 
-                    var scaled = document.getElementsByClassName('scaled');
-                    for (var j = 0; j < scaled.length; ++j) {
-                        scaled[j].onload = function () {
-                            var width = this.width;
-                            var height = this.height;
-                            if (width > height) {
-                                this.width = MAX_SIZE;
-                                this.height = MAX_SIZE * height / width;
-                            } else {
-                                this.height = MAX_SIZE;
-                                this.width = MAX_SIZE * width / height;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    });
+                      var scaled = document.getElementsByClassName('scaled');
+                      for (var j = 0; j < scaled.length; ++j) {
+                          scaled[j].onload = function () {
+                              var width = this.width;
+                              var height = this.height;
+                              if (width > height) {
+                                  this.width = MAX_SIZE;
+                                  this.height = MAX_SIZE * height / width;
+                              } else {
+                                  this.height = MAX_SIZE;
+                                  this.width = MAX_SIZE * width / height;
+                              }
+                          }
+                      }
+                  }
+              }
+              $("#list").removeClass("_hidden");
+          }
+      });
+    }, 450);
 }
 
 $(document).ready(function() {
     getPage();
-    document.getElementById('search').onclick = function(){
+    $('#filterForm').submit(function(e){
+        e.preventDefault();
         var keyword = $('#keyword').val();
         var keywords = keyword.split(/\s/);
         for(var i = 0;i < keywords.length; ++i){
@@ -156,5 +161,5 @@ $(document).ready(function() {
         var start = new Date($('#start').val());
         var end = new Date($('#end').val());
         getPage(keywords, start, end);
-    };
+    });
 });
