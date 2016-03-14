@@ -16,7 +16,10 @@ var siteMap = [
     [/youth/, "中国青年网"],
     [/xinhua/, "新华网"],
     [/sohu/, "搜狐网"],
-    [/huanqiu/, "环球网"]
+    [/huanqiu/, "环球网"],
+    [/huaxi100\.com/, "华西新闻"],
+    [/thepaper\.cn/, "澎湃"],
+    [/asiafinance\.cn/, "亚洲财经"]
 ];
 
 function matchSiteMap(host){
