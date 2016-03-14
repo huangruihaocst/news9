@@ -25,7 +25,7 @@ app.on('ready', function() {
     MainWindow.loadURL('file://' + __dirname + '/index.html');
 
     // 打开开发工具
-    MainWindow.openDevTools();
+    // MainWindow.openDevTools();
 
     // 当 window 被关闭，这个事件会被发出
     MainWindow.on('closed', function() {
