@@ -63,11 +63,11 @@ function getPage(keyword, start, end) {
         k = 'keywords=' + keyword;
         para ++;
     }
-    if(start != undefined && start != encodeURI(new Date(''))){
+    if(start != undefined && encodeURI(start) != 'Invalid%20Date'){
         s = 'startDate=' + encodeURI(start);
         para ++;
     }
-    if(end != undefined && end != encodeURI(new Date(''))){
+    if(end != undefined && encodeURI(end) != 'Invalid%20Date'){
         e = 'endDate=' + encodeURI(end);
         para ++;
     }
@@ -86,18 +86,17 @@ function getPage(keyword, start, end) {
     }
     $.ajax({
         type: "GET",
-        url: HTTP_SCHEME + API_HOST + '/api/news' +attachment,
+        url: HTTP_SCHEME + API_HOST + '/api/news' + attachment,
         crossDomain: true,
         xhrFields: {
             withCredentials: true
         },
         success: function (result) {
-            console.log(keyword);
-            console.log(HTTP_SCHEME + API_HOST + '/api/news' +attachment);
             var list = $("#list");
+            alert(result.length);
             for (var i = 0; i < result.length; ++i) {
                 var item = result[i];
-                // TODO 这里可以修改从而美化界面, 可用的字段在server.js可以找到
+                // TODO: 这里可以修改从而美化界面, 可用的字段在server.js可以找到
                 if (isValid(item)) {
                     var url = item.url;
                     var title = item.title;
