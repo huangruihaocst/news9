@@ -7,7 +7,7 @@ var assert = require('assert');
 var request = require("request");
 var sleep = require("sleep");
 // 假定每页20个, 一共20页
-ITEMS_PER_PAGE = 20;
+ITEMS_PER_PAGE = 200;
 PAGE_COUNT = 20;
 DEFAULT_DATE_OFFSET = -2;
 
@@ -72,24 +72,24 @@ function queryFrom(source, queryString, offset, count, callback) {
             }, function(err, _, response) {
                 try {
                     var news = JSON.parse(response);
+                    var raw = news['retData']['data'];//array
+                    var content = [];
+                    for(var i = 0;i < raw.length; ++i){
+                        var object = { // 2016-03-13 11:49
+                            'source': '松鼠先生',
+                            'title': raw[i]['title'],
+                            'date': parseDateRubust(raw[i]['datetime']),
+                            'description': raw[i]['abstract'],
+                            'url': raw[i]['url'],
+                            'image': raw[i]['img_url']
+                        };
+                        content.push(object);
+                    }
+                    callback(content);
+                    }
+                catch (exception) {
+                    console.log(exception);
                 }
-                catch (exceptioN) {
-                    return;
-                }
-                var raw = news['retData']['data'];//array
-                var content = [];
-                for(var i = 0;i < raw.length; ++i){
-                    var object = { // 2016-03-13 11:49
-                        'source': '松鼠先生',
-                        'title': raw[i]['title'],
-                        'date': parseDateRubust(raw[i]['datetime']),
-                        'description': raw[i]['abstract'],
-                        'url': raw[i]['url'],
-                        'image': raw[i]['img_url']
-                    };
-                    content.push(object);
-                }
-                callback(content);
             });
             break;
         case 'show':
