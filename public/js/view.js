@@ -148,7 +148,7 @@ $(document).ready(function() {
     getPage();
     document.getElementById('search').onclick = function(){
         var keyword = $('#keyword').val();
-        var keywords = keyword.split(' ');
+        var keywords = keyword.split(/\s/);
         for(var i = 0;i < keywords.length; ++i){
             keywords[i] = encodeURI(keywords[i]);
         }
