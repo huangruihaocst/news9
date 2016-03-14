@@ -52,6 +52,7 @@ function isValid(item){
     var source = item.source;
     return url != null && title != null && date != null && source != null;
 }
+
 function initPage() {
     var keyword = "thu";
     var media = "";
@@ -113,6 +114,12 @@ function initPage() {
         }
     });
 }
+
 $(document).ready(function() {
     initPage();
 });
+
+$('#search').onclick = function () {
+    var keyword = $('#keyword').text();
+    alert(keyword);
+};
