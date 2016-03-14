@@ -29,17 +29,18 @@
       "email": "huangruihaocst@126.com"
     }
   ],
+  "main": "main.js",
   "scripts": {
-    "start": "node main.js"
+    "start": "electron main.js"
   },
   "dependencies": {
     "dateformat": "^1.0.12",
     "express": "^4.13.4",
     "jquery": "^2.2.1",
     "mongodb": "^2.1.7",
+    "open": "0.0.5",
     "request": "^2.69.0",
-    "sleep": "^3.0.1",
-    "open": "0.0.5"
+    "sleep": "^3.0.1"
   },
   "devDependencies": {}
 }
