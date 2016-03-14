@@ -6,6 +6,8 @@ var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var request = require("request");
 var sleep = require("sleep");
+
+TSINGHUA = "清华";
 // 假定每页20个, 一共20页
 ITEMS_PER_PAGE = 200;
 PAGE_COUNT = 20;
@@ -126,21 +128,26 @@ function queryFrom(source, queryString, offset, count, callback) {
             }, function(err, _, response) {
                 try {
                     var news = JSON.parse(response);
+
+                    var raw = news['result'];//array
+                    var content = [];
+                    for(var i = 0;i < raw.length; ++i) {
+                        var object = { // 2016-03-14 08:07:00
+                            'source': raw[i]['src'],
+                            'title': raw[i]['title'],
+                            'date': parseDateRubust(raw[i]['pdate_src']),
+                            'description': raw[i]['content'],
+                            'url': raw[i]['url'],
+                            'image': raw[i]['img']
+                        };
+
+                        if (object.title.indexOf(TSINGHUA) > -1 && object.description.indexOf(TSINGHUA) > -1) {
+                            content.push(object);
+                        }
+                    }
                 } catch(exception) {
+                    console.error(exception);
                     return;
-                }
-                var raw = news['result'];//array
-                var content = [];
-                for(var i = 0;i < raw.length; ++i){
-                    var object = { // 2016-03-14 08:07:00
-                        'source': raw[i]['src'],
-                        'title': raw[i]['title'],
-                        'date': parseDateRubust(raw[i]['pdate_src']),
-                        'description': raw[i]['content'],
-                        'url': raw[i]['url'],
-                        'image': raw[i]['img']
-                    };
-                    content.push(object);
                 }
                 callback(content);
             });
