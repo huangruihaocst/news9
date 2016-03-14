@@ -42,5 +42,6 @@
     "request": "^2.69.0",
     "sleep": "^3.0.1"
   },
+  "build": "electron-packager . News --ignore=node_modules/electron-* --platform=win32 --arch=ia32 --version=0.32.3",
   "devDependencies": {}
 }
