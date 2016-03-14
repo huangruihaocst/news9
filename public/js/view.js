@@ -93,7 +93,7 @@ function getPage(keyword, start, end) {
         },
         success: function (result) {
             var list = $("#list");
-            alert(result.length);
+            list.empty();
             for (var i = 0; i < result.length; ++i) {
                 var item = result[i];
                 // TODO: 这里可以修改从而美化界面, 可用的字段在server.js可以找到
@@ -119,7 +119,6 @@ function getPage(keyword, start, end) {
                         content + "</p></div><div class='col-md-3'>" +
                         "<img class='scaled' onerror='src=\"alt.jpg\";onerror=null;' src='" + image +
                         "'/></div></li>";
-                    list.innerHTML = '';
                     list.append(html);
 
                     var scaled = document.getElementsByClassName('scaled');
@@ -145,9 +144,14 @@ function getPage(keyword, start, end) {
 $(document).ready(function() {
     getPage();
     document.getElementById('search').onclick = function(){
-        var keyword = document.getElementById('keyword').value;
-        var start = new Date(document.getElementById('start').value);
-        var end = new Date(document.getElementById('end').value);
-        getPage(keyword, start, end);
+        var keyword = $('#keyword').val();
+        var keywords = keyword.split(' ');
+        for(var i = 0;i < keywords.length; ++i){
+            keywords[i] = encodeURI(keywords[i]);
+        }
+        keywords = JSON.stringify(keywords);
+        var start = new Date($('#start').val());
+        var end = new Date($('#end').val());
+        getPage(keywords, start, end);
     };
 });
