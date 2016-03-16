@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "dateformat": "^1.0.12",
+    "electron-packager": "^5.2.1",
     "express": "^4.13.4",
     "jquery": "^2.2.1",
     "mongodb": "^2.1.7",
