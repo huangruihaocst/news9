@@ -44,6 +44,21 @@ var findNews = function(db, params, callback) {
     if (!params['startDate'] && !params['endDate']) {
         delete query['date'];
     }
+    if (params['sources']) {
+        var sources = JSON.parse(decodeURI(params['sources']));
+        // if sources is an array
+        if(Object.prototype.toString.call(sources) === '[object Array]') {
+            str = sources.map(function (x) {
+                if (typeof x == 'string') {
+                    return "(" + x.replace(/\.|\*|\$|\(|\)/, "") + ")"
+                }
+                else {
+                    return '';
+                }
+            }).join("|");
+            query['url_source'] = new RegExp(str);
+        }
+    }
 
     var pager = {};
     if (params['offset']) {
@@ -54,7 +69,6 @@ var findNews = function(db, params, callback) {
         pager['limit'] = parseInt(params['count']);
         if (isNaN(pager['limit'])) pager['limit'] =  DEFAULT_ITEMS_PER_PAGE;
     }
-
 
     var cursor = db.collection('news').find(query, pager).sort({ date: -1 });
     var rows = [];
@@ -77,6 +91,25 @@ app.get('/api/news', function (request, respond) {
         assert.equal(null, err);
         findNews(db, params, function(rows) {
             respond.end(JSON.stringify(rows));
+        });
+    });
+});
+
+app.get('/api/sources', function (request, respond) {
+    respond.writeHead(200, {
+        'Content-Type': 'x-application/json'
+    });
+    MongoClient.connect(mongoUrl, function(err, db) {
+        assert.equal(null, err);
+        var cursor = db.collection('newsSources').find();
+        var rows = [];
+        cursor.each(function(err, item) {
+            assert.equal(err, null);
+            if (item != null) {
+                rows.push(item);
+            } else {
+                respond.end(JSON.stringify(rows));
+            }
         });
     });
 });

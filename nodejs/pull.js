@@ -13,7 +13,7 @@ ITEMS_PER_PAGE = 200;
 PAGE_COUNT = 20;
 DEFAULT_DATE_OFFSET = -2;
 
-var url = 'mongodb://localhost:27017/newsdb';
+var newsdb = 'mongodb://localhost:27017/newsdb';
 var api_key_baidu = '606ef48abce1cb59a5694142d87a64df';
 var api_key_juhe = '0498f03cf3883cebc38d1bb1ca2fcea3';
 
@@ -34,8 +34,32 @@ function parseDateRubust(dateString) {
     }
 }
 
+function saveSources(objects, callback) {
+    MongoClient.connect(newsdb, function(err, db) {
+        try {
+            var url_sources = [];
+            for (var i = 0; i < objects.length; ++i) {
+                url_sources.push({
+                    name: objects[i].url_source
+                });
+            }
+            db.collection('newsSources').insertMany(url_sources, function (err, result) {
+                if (callback) {
+                    callback();
+                }
+                db.close();
+            })
+        }
+        catch (exception) {
+            if (typeof exception != 'MongoError') {
+                console.log(exception);
+            }
+        }
+    });
+}
+
 function saveToDatabase(objects, callback) {
-    MongoClient.connect(url, function(err, db) {
+    MongoClient.connect(newsdb, function(err, db) {
         try {
             db.collection('news').insertMany(objects, function (err, result) {
                 if (err == null) {
@@ -61,6 +85,50 @@ function saveToDatabase(objects, callback) {
     });
 }
 
+var siteMap = [
+    [/qq\.com/, "腾讯"],
+    [/weixin/, "微信"],
+    [/sina/, "新浪"],
+    [/toutiao/, "今日头条"],
+    [/legaldaily\.com/, "法制网"],
+    [/youth/, "中国青年网"],
+    [/xinhua/, "新华网"],
+    [/sohu/, "搜狐网"],
+    [/huanqiu/, "环球网"],
+    [/huaxi100\.com/, "华西新闻"],
+    [/thepaper\.cn/, "澎湃"],
+    [/asiafinance\.cn/, "亚洲财经"]
+];
+
+function matchSiteMap(host){
+    for (var i = 0; i < siteMap.length; ++i) {
+        var match = host.match(siteMap[i][0]);
+        if (match) {
+            return siteMap[i][1];
+        }
+    }
+}
+
+function sourceAnalyzer(url) {
+    if(!url) {
+        return 'Internet';
+    }
+    var fragments = url.split("/");
+    if (fragments.length >= 3) {
+        var host = fragments[2];
+        var source = matchSiteMap(host);
+        if(source == undefined){
+            host = fragments[3];
+            source = matchSiteMap(host);
+        }else{
+            return source;
+        }
+        if(source == undefined)return "Internet";
+        else return source;
+    }
+    return 'Internet';
+}
+
 function queryFrom(source, queryString, offset, count, callback) {
     // 这里写从真正的数据源获取数据, 并且统一成如下的数据格式
     // { "source": "sogou", "title": "xxx", "date": "20150101", "description": "xxx", "url": "http://www.baidu.com",
@@ -76,6 +144,9 @@ function queryFrom(source, queryString, offset, count, callback) {
                     var news = JSON.parse(response);
                     var raw = news['retData']['data'];//array
                     var content = [];
+                    if (!raw) {
+                        return;
+                    }
                     for(var i = 0;i < raw.length; ++i){
                         var object = { // 2016-03-13 11:49
                             'source': '松鼠先生',
@@ -83,7 +154,8 @@ function queryFrom(source, queryString, offset, count, callback) {
                             'date': parseDateRubust(raw[i]['datetime']),
                             'description': raw[i]['abstract'],
                             'url': raw[i]['url'],
-                            'image': raw[i]['img_url']
+                            'image': raw[i]['img_url'],
+                            'url_source': sourceAnalyzer(raw[i]['url'])
                         };
                         if (object.title.indexOf(TSINGHUA) > -1 && object.description.indexOf(TSINGHUA) > -1) {
                             content.push(object);
@@ -107,6 +179,9 @@ function queryFrom(source, queryString, offset, count, callback) {
                     return;
                 }
                 var raw = news['showapi_res_body']['pagebean']['contentlist'];//array
+                if (!raw) {
+                    return;
+                }
                 var content = [];
                 for(var i = 0;i < raw.length; ++i){
                     var object = {
@@ -115,7 +190,8 @@ function queryFrom(source, queryString, offset, count, callback) {
                         'date': parseDateRubust(raw[i]['pubdate']), // 2015-07-06 16:27:30
                         'description': raw[i]['desc'],
                         'url': raw[i]['link'],
-                        'image': raw[i]['imageurls'].length > 0 ? raw[i]['imageurls'][0]['url'] : null
+                        'image': raw[i]['imageurls'].length > 0 ? raw[i]['imageurls'][0]['url'] : null,
+                        'url_source': sourceAnalyzer(raw[i]['link'])
                     };
                     if (object.title.indexOf(TSINGHUA) > -1 && object.description.indexOf(TSINGHUA) > -1) {
                         content.push(object);
@@ -134,6 +210,9 @@ function queryFrom(source, queryString, offset, count, callback) {
                     var news = JSON.parse(response);
 
                     var raw = news['result'];//array
+                    if (!raw) {
+                        return;
+                    }
                     var content = [];
                     for(var i = 0;i < raw.length; ++i) {
                         var object = { // 2016-03-14 08:07:00
@@ -142,7 +221,8 @@ function queryFrom(source, queryString, offset, count, callback) {
                             'date': parseDateRubust(raw[i]['pdate_src']),
                             'description': raw[i]['content'],
                             'url': raw[i]['url'],
-                            'image': raw[i]['img']
+                            'image': raw[i]['img'],
+                            'url_source': sourceAnalyzer(raw[i]['url'])
                         };
 
                         if (object.title.indexOf(TSINGHUA) > -1 && object.description.indexOf(TSINGHUA) > -1) {
@@ -166,7 +246,9 @@ function startPulling(callback) {
     for (var i = 0; i < sources.length; ++i) {
         for (var j = 0; j < PAGE_COUNT; ++j) {
             queryFrom(sources[i], queryString, ITEMS_PER_PAGE * j, ITEMS_PER_PAGE, function (result) {
-                saveToDatabase(result, callback);
+                saveSources(result, function() {
+                    saveToDatabase(result, callback);
+                });
             });
         }
     }
