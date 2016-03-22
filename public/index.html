@@ -51,21 +51,23 @@
         <form id="filterForm" class="form-inline">
             <div class="row" style="margin-bottom: 60px">
                 <div class="col-md-1"></div>
-                <input class="form-control typeahead-only input-lg tt-input col-md-3"
+                <input class="form-control typeahead-only input-lg tt-input col-md-2"
                        style="background-color: transparent;"
                        placeholder="更多关键词" id="keyword"/>
-                <div class="col-md-1"></div>
+                <div class="col-sm-1"></div>
                 <input type="date" placeholder="起始时间"
-                       class="form-control typeahead-only input-lg col-md-3" id="start"/>
-                <p class="col-md-1" id="text">到</p>
+                       class="form-control typeahead-only input-lg col-md-2" id="start"/>
+                <p class="col-sm-1" id="text">到</p>
                 <input type="date" placeholder="终止时间"
-                       class="form-control typeahead-only input-lg col-md-3" id="end"/>
-                </div>
-            <div class="row">
-                <ul id="sources"></ul>
+                       class="form-control typeahead-only input-lg col-md-2" id="end"/>
             </div>
             <div class="row">
-                <div class="col-md-9"></div>
+                <div class="col-md-6"></div>
+                <p class="col-md-1">来源</p>
+                <select id="sources" class="col-md-2 select2-container" title="sources">
+                    <option></option>
+                </select>
+                <div class="col-md-1"></div>
                 <button class="btn btn-primary btn-lg" id="search" type="submit">
                     筛选</button>
             </div>
