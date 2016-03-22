@@ -2,9 +2,9 @@
  * Created by huangruihao on 16-3-7.
  */
 var $ = require('jquery');
-var API_HOST = 'news.net9.org';
+var API_HOST = '127.0.0.1';//news.net9.org
 var HTTP_SCHEME = 'https://';
-var MAX_SIZE = 128;
+var MAX_IMG_SIZE = 128;
 var dateFormat = require('dateformat');
 
 var siteMap = [
@@ -132,11 +132,11 @@ function getPage(keyword, start, end) {
                               var width = this.width;
                               var height = this.height;
                               if (width > height) {
-                                  this.width = MAX_SIZE;
-                                  this.height = MAX_SIZE * height / width;
+                                  this.width = MAX_IMG_SIZE;
+                                  this.height = MAX_IMG_SIZE * height / width;
                               } else {
-                                  this.height = MAX_SIZE;
-                                  this.width = MAX_SIZE * width / height;
+                                  this.height = MAX_IMG_SIZE;
+                                  this.width = MAX_IMG_SIZE * width / height;
                               }
                           }
                       }
@@ -148,8 +148,32 @@ function getPage(keyword, start, end) {
     }, 450);
 }
 
+function getSources() {
+    $.ajax({
+        type: "GET",
+        url: HTTP_SCHEME + API_HOST + '/api/sources',
+        crossDomain: true,
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function (result) {
+            alert(result.length);
+            var list = $("#sources");
+            list.empty();
+            for(var i = 0;i < result.length; ++i){
+                var source = result[i];
+                var name = source.name;
+                var html = "<li><label class='checkbox' for='"+ name +"'/><input type='checkbox' data-toggle='checkbox' id='"+
+                    name +"'/></li>";
+                list.append(html);
+            }
+        }
+    });
+}
+
 $(document).ready(function() {
     getPage();
+    getSources();
     $('#filterForm').submit(function(e){
         e.preventDefault();
         var keyword = $('#keyword').val();

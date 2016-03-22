@@ -22,6 +22,7 @@ function isValidDate(d) {
         return false;
     return !isNaN(d.getTime());
 }
+
 function parseDateRubust(dateString) {
     var date = new Date(dateString);
     if (isValidDate(date)) {
