@@ -19,10 +19,16 @@ app.on('window-all-closed', function() {
 // 这个方法就被调用
 app.on('ready', function() {
     // 创建浏览器窗口。
-    MainWindow = new BrowserWindow({width: 800, height: 600});
+    MainWindow = new BrowserWindow({width: 1024, height: 768});
 
     // 加载应用的 index.html
-    MainWindow.loadURL('file://' + __dirname + '/index.html');
+    if (MainWindow['loadURL']) {
+        MainWindow.loadURL('file://' + __dirname + '/index.html');
+    }
+    else {
+        MainWindow.loadUrl('file://' + __dirname + '/index.html');
+    }
+
 
     // 打开开发工具
     // MainWindow.openDevTools();

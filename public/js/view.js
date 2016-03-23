@@ -2,9 +2,9 @@
  * Created by huangruihao on 16-3-7.
  */
 var $ = require('jquery');
-var API_HOST = 'news.net9.org';
-var HTTP_SCHEME = 'https://';
-var MAX_SIZE = 128;
+var API_HOST = '127.0.0.1';//news.net9.org
+var HTTP_SCHEME = 'http://';
+var MAX_IMG_SIZE = 128;
 var dateFormat = require('dateformat');
 
 var siteMap = [
@@ -56,37 +56,21 @@ function isValid(item){
     return url != null && title != null && date != null && source != null;
 }
 
-function getPage(keyword, start, end) {
-    var k = '';
-    var s = '';
-    var e = '';
-    var para = 0;
-    var attachment = '';
-    if(keyword != undefined){
-        k = 'keywords=' + keyword;
-        para ++;
+function getPage(keywords, start, end, sources) {
+    var k = '', s = '', e = '';
+    if(keywords != undefined){
+        k = keywords;
     }
-    if(start != undefined && encodeURI(start) != 'Invalid%20Date'){
-        s = 'startDate=' + encodeURI(start);
-        para ++;
+    if (start != undefined && encodeURI(start) != 'Invalid%20Date'){
+        s = encodeURI(start);
     }
-    if(end != undefined && encodeURI(end) != 'Invalid%20Date'){
-        e = 'endDate=' + encodeURI(end);
-        para ++;
+    if (end != undefined && encodeURI(end) != 'Invalid%20Date'){
+        e = encodeURI(end);
     }
-    if(para == 1){
-        attachment = '?' + k + s + e;
-    }else if(para == 2){
-        if(k == ''){
-            attachment = '?' + s + '&' + e;
-        }else if(s == ''){
-            attachment = '?' + k + '&' + e;
-        }else{
-            attachment = '?' + k + '&' + s;
-        }
-    }else if(para == 3){
-        attachment = '?' + k + '&' + s + '&' + e;
-    }
+    var sources_array = [];
+    sources_array.push(sources);
+    var sources_json = JSON.stringify(sources_array);
+    var attachment = '?keywords=' + k + '&startDate=' + s + '&endDate=' + e + '&sources=' +sources_json;
     $("#list").addClass("_hidden");
     setTimeout(function(){
       $.ajax({
@@ -97,6 +81,7 @@ function getPage(keyword, start, end) {
               withCredentials: true
           },
           success: function (result) {
+              console.log(HTTP_SCHEME + API_HOST + '/api/news' + attachment);
               var list = $("#list");
               list.empty();
               for (var i = 0; i < result.length; ++i) {
@@ -132,11 +117,11 @@ function getPage(keyword, start, end) {
                               var width = this.width;
                               var height = this.height;
                               if (width > height) {
-                                  this.width = MAX_SIZE;
-                                  this.height = MAX_SIZE * height / width;
+                                  this.width = MAX_IMG_SIZE;
+                                  this.height = MAX_IMG_SIZE * height / width;
                               } else {
-                                  this.height = MAX_SIZE;
-                                  this.width = MAX_SIZE * width / height;
+                                  this.height = MAX_IMG_SIZE;
+                                  this.width = MAX_IMG_SIZE * width / height;
                               }
                           }
                       }
@@ -148,8 +133,30 @@ function getPage(keyword, start, end) {
     }, 450);
 }
 
+function getSources() {
+    $.ajax({
+        type: "GET",
+        url: HTTP_SCHEME + API_HOST + '/api/sources',
+        crossDomain: true,
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function (result) {
+            var list = $("#sources");
+            for(var i = 0;i < result.length; ++i){
+                var source = result[i];
+                var name = source.name;
+                console.log(name);
+                var html = "<option value='" + name + "'>" + name + "</option>";
+                list.append(html);
+            }
+        }
+    });
+}
+
 $(document).ready(function() {
     getPage();
+    getSources();
     $('#filterForm').submit(function(e){
         e.preventDefault();
         var keyword = $('#keyword').val();
@@ -160,6 +167,7 @@ $(document).ready(function() {
         keywords = JSON.stringify(keywords);
         var start = new Date($('#start').val());
         var end = new Date($('#end').val());
-        getPage(keywords, start, end);
+        var sources = $('#sources').val().split('\"')[0];
+        getPage(keywords, start, end, sources);
     });
 });

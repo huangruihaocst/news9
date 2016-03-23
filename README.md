@@ -36,10 +36,20 @@
     $ electron .
     ```
 
-## 清数据库重启方法
+6. 清数据库重启方法
     $ mongo mongodb/recreate.js
     重启node nodejs/main.js
     重启node nodejs/pull.js
+
+## JSON API
+    1. 获取新闻源列表
+
+        GET /api/sources
+        [ { "name": "xxx" }, { "name": "新浪" }, ...]
+
+    2. 查询某个新闻源的新闻
+
+        GET /api/news?sources=["xx","xx"...]
 
 ## TODOs
 * TODO(assigned to huangruihaocst@126.com)
