@@ -37,6 +37,10 @@ function parseDateRubust(dateString) {
 
 function saveSources(objects, callback) {
     MongoClient.connect(newsdb, function(err, db) {
+        if (err) {
+            console.error(err);
+            throw err;
+        }
         try {
             var url_sources = [];
             for (var i = 0; i < objects.length; ++i) {
@@ -53,28 +57,22 @@ function saveSources(objects, callback) {
         }
         catch (exception) {
             if (typeof exception != 'MongoError') {
-                console.log(exception);
+                console.error(exception);
             }
         }
     });
 }
 
-function saveToDatabase(objects, callback) {
+function saveToDatabase(objects) {
     MongoClient.connect(newsdb, function(err, db) {
         try {
             db.collection('news').insertMany(objects, function (err, result) {
                 if (err == null) {
-                    //console.log("Inserted " + objects.length + " items into the news collection.");
+                    console.log("Inserted " + objects.length + " items into the news collection.");
                     db.close();
-                    if (callback) {
-                        callback(true);
-                    }
                 }
                 else {
-                    //console.log("Inserted 0 item into the news collection!");
-                    if (callback) {
-                        callback(false);
-                    }
+                    console.log("Inserted 0 item into the news collection!");
                 }
             });
         }
@@ -150,31 +148,26 @@ function queryFrom(source, queryString, offset, count, callback) {
                     // json error, maybe network issue
                     return;
                 }
-                try {
-                    var raw = news['retData']['data'];//array
-                    var content = [];
-                    if (!raw) {
-                        return;
-                    }
-                    for(var i = 0;i < raw.length; ++i){
-                        var object = { // 2016-03-13 11:49
-                            'source': '松鼠先生',
-                            'title': raw[i]['title'],
-                            'date': parseDateRubust(raw[i]['datetime']),
-                            'description': raw[i]['abstract'],
-                            'url': raw[i]['url'],
-                            'image': raw[i]['img_url'],
-                            'url_source': sourceAnalyzer(raw[i]['url'])
-                        };
-                        if (object.title.indexOf(TSINGHUA) > -1 && object.description.indexOf(TSINGHUA) > -1) {
-                            content.push(object);
-                        }
-                    }
-                    callback(content);
-                    }
-                catch (exception) {
-                    console.log(exception);
+                var raw = news['retData']['data'];//array
+                var content = [];
+                if (!raw) {
+                    return;
                 }
+                for(var i = 0;i < raw.length; ++i){
+                    var object = { // 2016-03-13 11:49
+                        'source': '松鼠先生',
+                        'title': raw[i]['title'],
+                        'date': parseDateRubust(raw[i]['datetime']),
+                        'description': raw[i]['abstract'],
+                        'url': raw[i]['url'],
+                        'image': raw[i]['img_url'],
+                        'url_source': sourceAnalyzer(raw[i]['url'])
+                    };
+                    if (object.title.indexOf(TSINGHUA) > -1 && object.description.indexOf(TSINGHUA) > -1) {
+                        content.push(object);
+                    }
+                }
+                callback(content);
             });
             break;
         case 'show':
@@ -219,33 +212,29 @@ function queryFrom(source, queryString, offset, count, callback) {
                 var news;
                 try {
                     news = JSON.parse(response);
-                }catch(exception) {
+                }
+                catch(exception) {
                     return;
                 }
-                try {
-                    var raw = news['result'];//array
-                    if (!raw) {
-                        return;
-                    }
-                    var content = [];
-                    for(var i = 0;i < raw.length; ++i) {
-                        var object = { // 2016-03-14 08:07:00
-                            'source': raw[i]['src'],
-                            'title': raw[i]['title'],
-                            'date': parseDateRubust(raw[i]['pdate_src']),
-                            'description': raw[i]['content'],
-                            'url': raw[i]['url'],
-                            'image': raw[i]['img'],
-                            'url_source': sourceAnalyzer(raw[i]['url'])
-                        };
-
-                        if (object.title.indexOf(TSINGHUA) > -1 && object.description.indexOf(TSINGHUA) > -1) {
-                            content.push(object);
-                        }
-                    }
-                } catch(exception) {
-                    console.error(exception);
+                var raw = news['result'];//array
+                if (!raw) {
                     return;
+                }
+                var content = [];
+                for(var i = 0;i < raw.length; ++i) {
+                    var object = { // 2016-03-14 08:07:00
+                        'source': raw[i]['src'],
+                        'title': raw[i]['title'],
+                        'date': parseDateRubust(raw[i]['pdate_src']),
+                        'description': raw[i]['content'],
+                        'url': raw[i]['url'],
+                        'image': raw[i]['img'],
+                        'url_source': sourceAnalyzer(raw[i]['url'])
+                    };
+
+                    if (object.title.indexOf(TSINGHUA) > -1 && object.description.indexOf(TSINGHUA) > -1) {
+                        content.push(object);
+                    }
                 }
                 callback(content);
             });
@@ -254,15 +243,14 @@ function queryFrom(source, queryString, offset, count, callback) {
     }
 }
 
-function startPulling(callback) {
+function startPulling() {
     var queryString = "清华大学";
     var sources = ['松鼠先生', 'show', '聚合'];
     for (var i = 0; i < sources.length; ++i) {
         for (var j = 0; j < PAGE_COUNT; ++j) {
             queryFrom(sources[i], queryString, ITEMS_PER_PAGE * j, ITEMS_PER_PAGE, function (result) {
-                saveSources(result, function() {
-                    saveToDatabase(result, callback);
-                });
+                saveSources(result);
+                saveToDatabase(result);
             });
         }
     }
@@ -272,4 +260,4 @@ var interval = 1 * 1000; // 2 minutes
 setInterval(function() {
     startPulling();
 }, interval);
-startPulling();
+//startPulling();

@@ -2,8 +2,8 @@
  * Created by huangruihao on 16-3-7.
  */
 var $ = require('jquery');
-var API_HOST = 'news.net9.org';
-var HTTP_SCHEME = 'https://';
+var API_HOST = 'localhost';//'news.net9.org';
+var HTTP_SCHEME = 'http://';
 var MAX_IMG_SIZE = 128;
 var dateFormat = require('dateformat');
 
