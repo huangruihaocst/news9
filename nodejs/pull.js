@@ -64,14 +64,14 @@ function saveToDatabase(objects, callback) {
         try {
             db.collection('news').insertMany(objects, function (err, result) {
                 if (err == null) {
-                    console.log("Inserted " + objects.length + " items into the news collection.");
+                    //console.log("Inserted " + objects.length + " items into the news collection.");
                     db.close();
                     if (callback) {
                         callback(true);
                     }
                 }
                 else {
-                    console.log("Inserted 0 item into the news collection!");
+                    //console.log("Inserted 0 item into the news collection!");
                     if (callback) {
                         callback(false);
                     }
@@ -80,7 +80,7 @@ function saveToDatabase(objects, callback) {
         }
         catch (exception) {
             if (typeof exception != 'MongoError') {
-                //console.log(exception);
+                console.log(exception);
             }
         }
     });
@@ -141,8 +141,16 @@ function queryFrom(source, queryString, offset, count, callback) {
                 uri: "http://apis.baidu.com/songshuxiansheng/real_time/search_news?page=" + offset / count + "&count=" + count + "&keyword=" + encodeURI(queryString),
                 headers: { 'apikey': api_key_baidu }
             }, function(err, _, response) {
+                var news;
+
                 try {
-                    var news = JSON.parse(response);
+                    news = JSON.parse(response);
+                }
+                catch (exception) {
+                    // json error, maybe network issue
+                    return;
+                }
+                try {
                     var raw = news['retData']['data'];//array
                     var content = [];
                     if (!raw) {
@@ -177,6 +185,7 @@ function queryFrom(source, queryString, offset, count, callback) {
                 try {
                     var news = JSON.parse(data);
                 } catch (exception) {
+                    // json error
                     return;
                 }
                 var raw = news['showapi_res_body']['pagebean']['contentlist'];//array
@@ -207,9 +216,13 @@ function queryFrom(source, queryString, offset, count, callback) {
                 '&key=' + api_key_juhe
                 //headers: { 'apikey': api_key_baidu }
             }, function(err, _, response) {
+                var news;
                 try {
-                    var news = JSON.parse(response);
-
+                    news = JSON.parse(response);
+                }catch(exception) {
+                    return;
+                }
+                try {
                     var raw = news['result'];//array
                     if (!raw) {
                         return;
@@ -255,7 +268,7 @@ function startPulling(callback) {
     }
 }
 
-var interval = 30 * 1000; // 2 minutes
+var interval = 1 * 1000; // 2 minutes
 setInterval(function() {
     startPulling();
 }, interval);
