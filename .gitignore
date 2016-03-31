@@ -3,4 +3,5 @@
 *.log
 /nodejs/node_modules/*
 /public/node_modules/*
+/electron/node_modules/*
 dump.rdb
