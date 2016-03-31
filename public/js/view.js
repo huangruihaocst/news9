@@ -1,11 +1,10 @@
 /**
  * Created by huangruihao on 16-3-7.
  */
-var $ = require('jquery');
+
 var API_HOST = 'news.net9.org';
 var HTTP_SCHEME = 'https://';
 var MAX_IMG_SIZE = 128;
-var dateFormat = require('dateformat');
 
 var siteMap = [
     [/qq\.com/, "腾讯"],
@@ -55,6 +54,11 @@ function isValid(item){
     var source = item.source;
     return url != null && title != null && date != null && source != null;
 }
+function dateFormat(dateString) {
+    var date = new Date(Date.parse(dateString));
+    return date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-" +
+        date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
+}
 
 function getPage(keywords, start, end, sources) {
     var k = '', s = '', e = '';
@@ -98,7 +102,7 @@ function getPage(keywords, start, end, sources) {
                       if (source == '松鼠先生' || source == 'show') {
                           source = media;
                       }
-                      var description = source + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + dateFormat(date, "yyyy-mm-dd, hh:MM:ss");
+                      var description = source + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + dateFormat(date);
                       if (source == '松鼠先生' || source == 'show') {
                           source = media;
                       }

@@ -2,6 +2,8 @@ var app = require('app');  // 控制应用生命周期的模块。
 var open = require("open");
 var BrowserWindow = require('browser-window');  // 创建原生浏览器窗口的模块
 
+var ServerIndexURL = "https://news.net9.org/index.html";
+
 // 保持一个对于 window 对象的全局引用，不然，当 JavaScript 被 GC，
 // window 会被自动地关闭
 MainWindow = null;
@@ -19,16 +21,10 @@ app.on('window-all-closed', function() {
 // 这个方法就被调用
 app.on('ready', function() {
     // 创建浏览器窗口。
-    MainWindow = new BrowserWindow({width: 1024, height: 768});
+    MainWindow = new BrowserWindow({width: 1024, height: 768, nodeIntegration: false});
 
     // 加载应用的 index.html
-    if (MainWindow['loadURL']) {
-        MainWindow.loadURL('file://' + __dirname + '/index.html');
-    }
-    else {
-        MainWindow.loadUrl('file://' + __dirname + '/index.html');
-    }
-
+    MainWindow.loadURL(ServerIndexURL);
 
     // 打开开发工具
     // MainWindow.openDevTools();
