@@ -24,7 +24,12 @@ app.on('ready', function() {
     MainWindow = new BrowserWindow({width: 1024, height: 768, nodeIntegration: false});
 
     // 加载应用的 index.html
-    MainWindow.loadURL(ServerIndexURL);
+    if (MainWindow['loadURL']) {
+        MainWindow.loadURL(ServerIndexURL);
+    }
+    else {
+        MainWindow.loadUrl(ServerIndexURL);
+    }
 
     // 打开开发工具
     // MainWindow.openDevTools();
