@@ -2,8 +2,8 @@
  * Created by huangruihao on 16-3-7.
  */
 
-var API_HOST = 'news.net9.org';
-var HTTP_SCHEME = 'https://';
+var API_HOST = 'papa.a1ex.wang:8080';
+var HTTP_SCHEME = 'http://';
 var MAX_IMG_SIZE = 128;
 
 var siteMap = [
