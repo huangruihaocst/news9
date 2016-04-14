@@ -21,7 +21,12 @@ app.on('window-all-closed', function() {
 // 这个方法就被调用
 app.on('ready', function() {
     // 创建浏览器窗口。
-    MainWindow = new BrowserWindow({width: 1024, height: 768, nodeIntegration: false});
+    MainWindow = new BrowserWindow({
+        width: 1024, 
+        height: 768,
+        nodeIntegration: false, 
+        'node-integration': false 
+    });
 
     // 加载应用的 index.html
     if (MainWindow['loadURL']) {
